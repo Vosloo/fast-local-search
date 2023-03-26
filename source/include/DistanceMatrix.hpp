@@ -1,18 +1,20 @@
 #pragma once
 
-#include <vector>
 #include <iostream>
 
 #include "Node.hpp"
+#include "Instance.hpp"
 
 class DistanceMatrix
 {
 private:
-    std::vector<Node> nodes;
-    std::vector<std::vector<float>> distances;
+    Instance* instance;
+    float** distances;
     void calculateDistances();
+    float calculateDistance(Node& node1, Node& node2);
 
 public:
-    DistanceMatrix(std::vector<Node> &nodes);
-    float getDistance(Node &node1, Node &node2);
+    DistanceMatrix(Instance* instance);
+    float getDistance(Node& node1, Node& node2);
+    ~DistanceMatrix();
 };

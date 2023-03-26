@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "FileReader.hpp"
+#include "Instance.hpp"
 
 void FileReader::splitString(std::string& str, std::vector<std::string>& split, char delimiter)
 {
@@ -21,7 +22,7 @@ void FileReader::splitString(std::string& str, std::vector<std::string>& split, 
     split.push_back(str.substr(start, end - start));
 }
 
-std::vector<Node> FileReader::loadTspInstance(std::string& filename)
+Instance FileReader::loadTspInstance(std::string& filename)
 {
     std::ifstream file(filename);
 
@@ -29,9 +30,10 @@ std::vector<Node> FileReader::loadTspInstance(std::string& filename)
         throw std::runtime_error("Could not open file");
     }
 
-    std::vector<Node> nodes;
+    Node** nodes;
     int numberOfNodes = -1;
     bool coordsSection = false;
+    int curInd = 0;
 
     std::string line;
     std::vector<std::string> split;
@@ -44,14 +46,13 @@ std::vector<Node> FileReader::loadTspInstance(std::string& filename)
         if (!coordsSection) {
             if (split[0] == "DIMENSION:") {
                 numberOfNodes = std::stoi(split[1]);
+                nodes = new Node*[numberOfNodes];
             } else if (split[0] == "NODE_COORD_SECTION") {
                 coordsSection = true;
             }
         } else {
-            nodes.push_back(Node(
-                std::stoi(split[0]),
-                std::stoi(split[1]),
-                std::stoi(split[2])));
+            nodes[curInd] = new Node(std::stoi(split[0]), std::stoi(split[1]), std::stoi(split[2]));
+            curInd++;
         }
     }
 
@@ -61,5 +62,5 @@ std::vector<Node> FileReader::loadTspInstance(std::string& filename)
         throw std::runtime_error("Could not find number of nodes in file");
     }
 
-    return nodes;
+    return Instance(nodes, numberOfNodes);
 }
