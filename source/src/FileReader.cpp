@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include "FileReader.hpp"
 #include "Instance.hpp"
@@ -24,10 +25,11 @@ void FileReader::splitString(std::string& str, std::vector<std::string>& split, 
 
 Instance FileReader::loadTspInstance(std::string& filename)
 {
-    std::ifstream file(filename);
+    std::filesystem::path path = std::filesystem::current_path() / "../../data" / filename;
+    std::ifstream file(path);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Could not open file");
+        throw std::runtime_error("Could not open TSP instance: " + path.string());
     }
 
     Node** nodes;
@@ -51,7 +53,8 @@ Instance FileReader::loadTspInstance(std::string& filename)
                 coordsSection = true;
             }
         } else {
-            nodes[curInd] = new Node(std::stoi(split[0]), std::stoi(split[1]), std::stoi(split[2]));
+            // Index is 1-based, so we subtract 1
+            nodes[curInd] = new Node(std::stoi(split[0]) - 1, std::stoi(split[1]), std::stoi(split[2]));
             curInd++;
         }
     }
