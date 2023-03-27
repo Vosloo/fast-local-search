@@ -11,6 +11,11 @@ Solution::Solution(Node** nodes, int size, DistanceMatrix& distanceMatrix)
     this->calculateScore();
 }
 
+Solution::~Solution()
+{
+    delete[] this->currentNodes;
+}
+
 void Solution::calculateScore()
 {
     this->score = 0.0f;
