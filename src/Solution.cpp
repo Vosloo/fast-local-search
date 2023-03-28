@@ -1,7 +1,6 @@
 #include "Solution.hpp"
-#include "Node.hpp"
 #include "DistanceMatrix.hpp"
-
+#include "Node.hpp"
 
 Solution::Solution(Node** nodes, int size, DistanceMatrix& distanceMatrix)
 {
@@ -20,11 +19,10 @@ void Solution::calculateScore()
 {
     this->score = 0.0f;
     currentNodes = getCurrentNodes();
-    for(int i = 0; i<size-1; i++)
-    {
-        this->score += distanceMatrix->getDistance(*currentNodes[i], *currentNodes[i+1]);
+    for (int i = 0; i < size - 1; i++) {
+        this->score += distanceMatrix->getDistance(*currentNodes[i], *currentNodes[i + 1]);
     }
-    this->score += distanceMatrix->getDistance(*currentNodes[0], *currentNodes[size-1]);
+    this->score += distanceMatrix->getDistance(*currentNodes[0], *currentNodes[size - 1]);
 }
 
 float Solution::getScore()

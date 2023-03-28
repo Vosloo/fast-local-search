@@ -15,6 +15,7 @@ private:
 
 public:
     DistanceMatrix(Instance* instance);
-    float getDistance(Node& node1, Node& node2);
     ~DistanceMatrix();
+    float getDistance(Node& node1, Node& node2);
+    Node* getClosestNode(Node& node);
 };

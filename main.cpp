@@ -6,11 +6,10 @@
 #include "Instance.hpp"
 #include "Node.hpp"
 #include "Solution.hpp"
-#include "utils.hpp"
 #include "algorithms/RandomAlgorithm.hpp"
+#include "utils.hpp"
 
-
-void print_stats(Solution &solution)
+void print_stats(Solution& solution)
 {
     std::cout << "---------------------" << std::endl;
     std::cout << "Score: " << solution.getScore() << std::endl;
@@ -22,7 +21,6 @@ void print_stats(Solution &solution)
     }
     std::cout << "\n---------------------" << std::endl;
 }
-
 
 int main(int, char**)
 {

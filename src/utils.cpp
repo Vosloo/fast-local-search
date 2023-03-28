@@ -36,3 +36,13 @@ Solution getRandomPermutation(Solution& solution)
 
     return Solution(newNodes, solution.getSize(), *solution.getDistanceMatrix());
 }
+
+void getTwoRandomIndicies(int n, int* result)
+{
+    result[0] = getRandom(n);
+    result[1] = getRandom(n-1);
+    if (result[0] == result[1])
+    {
+        result[1] = n;
+    }
+}

@@ -10,14 +10,22 @@ set(APP_SOURCES
     include/Solution.hpp
     include/utils.hpp
     include/algorithms/AbstractAlgorithm.hpp
+    include/algorithms/GreedyAlgorithm.hpp
+    include/algorithms/HeuristicAlgorithm.hpp
     include/algorithms/RandomAlgorithm.hpp
+    include/algorithms/RandomWalkAlgorithm.hpp
+    include/algorithms/SteepestAlgorithm.hpp
     src/DistanceMatrix.cpp
     src/FileReader.cpp
     src/Instance.cpp
     src/Node.cpp
     src/Solution.cpp
     src/utils.cpp
+    src/algorithms/GreedyAlgorithm.cpp
+    src/algorithms/HeuristicAlgorithm.cpp
     src/algorithms/RandomAlgorithm.cpp
+    src/algorithms/RandomWalkAlgorithm.cpp
+    src/algorithms/SteepestAlgorithm.cpp
 )
 
 add_library(app_lib ${APP_SOURCES})
