@@ -1,11 +1,33 @@
-# version 3.11 or later of CMake needed later for installing GoogleTest
-# so let's require it now.
 cmake_minimum_required(VERSION 3.13)
 
-project(
-    Project_1
-    VERSION 0.1
-    DESCRIPTION "Project no. 1 for bio_evo")
+project(app)
 
-add_subdirectory(source)
-add_subdirectory(app)
+set(APP_SOURCES
+    include/DistanceMatrix.hpp
+    include/FileReader.hpp
+    include/Instance.hpp
+    include/Node.hpp
+    include/Solution.hpp
+    include/utils.hpp
+    include/algorithms/AbstractAlgorithm.hpp
+    include/algorithms/RandomAlgorithm.hpp
+    src/DistanceMatrix.cpp
+    src/FileReader.cpp
+    src/Instance.cpp
+    src/Node.cpp
+    src/Solution.cpp
+    src/utils.cpp
+    src/algorithms/RandomAlgorithm.cpp
+)
+
+add_library(app_lib ${APP_SOURCES})
+
+target_include_directories(app_lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_executable(main main.cpp)
+target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(main app_lib)
+
+add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+target_compile_features(app_lib PUBLIC cxx_std_20)
+target_compile_features(main PUBLIC cxx_std_20)

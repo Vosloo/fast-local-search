@@ -7,6 +7,21 @@
 #include "Node.hpp"
 #include "Solution.hpp"
 #include "utils.hpp"
+#include "algorithms/RandomAlgorithm.hpp"
+
+
+void print_stats(Solution &solution)
+{
+    std::cout << "---------------------" << std::endl;
+    std::cout << "Score: " << solution.getScore() << std::endl;
+    for (int i = 0; i < solution.getSize(); i++) {
+        std::cout << solution.getCurrentNodes()[i]->getId();
+        if (i != solution.getSize() - 1) {
+            std::cout << " -> ";
+        }
+    }
+    std::cout << "\n---------------------" << std::endl;
+}
 
 
 int main(int, char**)
@@ -33,24 +48,13 @@ int main(int, char**)
     }
 
     Solution solution1 = Solution(solutionNodes, instance.getSize(), distanceMatrix);
-    std::cout << "\nScore of solution1: " << solution1.getScore() << std::endl;
-    for (int i = 0; i < solution1.getSize(); i++) {
-        std::cout << solution1.getCurrentNodes()[i]->getId();
-        if (i != solution1.getSize() - 1) {
-            std::cout << " -> ";
-        }
-    }
-    std::cout << std::endl;
 
-    Solution solution2 = getRandomPermutation(solution1);
-    std::cout << "\nScore of solution2: " << solution2.getScore() << std::endl;
-    for (int i = 0; i < solution2.getSize(); i++) {
-        std::cout << solution2.getCurrentNodes()[i]->getId();
-        if (i != solution2.getSize() - 1) {
-            std::cout << " -> ";
-        }
-    }
-    std::cout << std::endl;
-    
+    print_stats(solution1);
+
+    RandomAlgorithm randomAlgorithm;
+    Solution solution2 = randomAlgorithm.run(solution1);
+
+    print_stats(solution2);
+
     return 0;
 }

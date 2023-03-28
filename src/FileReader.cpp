@@ -25,7 +25,7 @@ void FileReader::splitString(std::string& str, std::vector<std::string>& split, 
 
 Instance FileReader::loadTspInstance(std::string& filename)
 {
-    std::filesystem::path path = std::filesystem::current_path() / "../../data" / filename;
+    std::filesystem::path path = std::filesystem::current_path() / "../data" / filename;
     std::ifstream file(path);
 
     if (!file.is_open()) {
