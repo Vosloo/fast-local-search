@@ -2,5 +2,6 @@
 
 #include "Solution.hpp"
 
-Solution getRandomPermutation(Solution& solution);
+int getRandom(int upperLimit);
+int* getRandomPermutation(int size);
 void getTwoRandomIndicies(int n, int* result);

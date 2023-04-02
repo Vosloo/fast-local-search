@@ -5,7 +5,7 @@
 
 class RandomWalkAlgorithm : public AbstractAlgorithm {
 public:
-    Solution run(Solution& initialSolution) override;
+    Solution* run(Solution* initialSolution) override;
 };
 
 

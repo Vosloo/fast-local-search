@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <set>
 
 DistanceMatrix::DistanceMatrix(Instance* instance)
 {
@@ -19,29 +20,36 @@ DistanceMatrix::~DistanceMatrix()
     delete[] this->distances;
 };
 
-float DistanceMatrix::getDistance(Node& node1, Node& node2)
+float DistanceMatrix::getDistance(int node1, int node2)
 {
-    return this->distances[node1.getId()][node2.getId()];
+    return this->distances[node1][node2];
 };
 
-Node* DistanceMatrix::getClosestNode(Node& node)
+int DistanceMatrix::getClosestNode(int node, std::set <int> visited)
 {
-    Node* closestNode = nullptr;
+    int closestNode = -1;
     float minDistance = std::numeric_limits<float>::max();
     for (int i = 0; i < this->instance->getSize(); i++) {
-        float distance = this->getDistance(node, *this->instance->getNodes()[i]);
-        if (distance < minDistance) {
+        float distance = this->getDistance(node, i);
+        if ((distance < minDistance) && (visited.find(i) == visited.end())){
             minDistance = distance;
-            closestNode = this->instance->getNodes()[i];
+            closestNode = i;
         }
     }
 
     return closestNode;
 };
 
-float DistanceMatrix::calculateDistance(Node& node1, Node& node2)
+Instance* DistanceMatrix::getInstance()
 {
-    return std::sqrt(std::pow(node1.getX() - node2.getX(), 2) + std::pow(node1.getY() - node2.getY(), 2));
+    return this->instance;
+};
+
+float DistanceMatrix::calculateDistance(int node1, int node2)
+{
+    Node* node1Ptr = this->instance->getNodes()[node1];
+    Node* node2Ptr = this->instance->getNodes()[node2];
+    return std::sqrt(std::pow(node1Ptr->getX() - node2Ptr->getX(), 2) + std::pow(node1Ptr->getY() - node2Ptr->getY(), 2));
 };
 
 void DistanceMatrix::calculateDistances()
@@ -54,7 +62,7 @@ void DistanceMatrix::calculateDistances()
             if (i == j) {
                 distanceMatrix[i][j] = std::numeric_limits<float>::max();
             } else {
-                distanceMatrix[i][j] = this->calculateDistance(*nodes[i], *nodes[j]);
+                distanceMatrix[i][j] = this->calculateDistance(i, j);
             }
         }
     }

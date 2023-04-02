@@ -1,4 +1,5 @@
 #include <random>
+#include <set>
 
 #include "Node.hpp"
 #include "Solution.hpp"
@@ -8,41 +9,32 @@ int getRandom(int upperLimit)
     return rand() % upperLimit;
 }
 
-Solution getRandomPermutation(Solution& solution)
+int* getRandomPermutation(int size)
 {
-    int* replaceInds = new int[solution.getSize()];
-    for (int i = 0; i < solution.getSize(); i++) {
+    int* replaceInds = new int[size];
+    for (int i = 0; i < size; i++) {
         replaceInds[i] = i;
     }
 
-    Node** newNodes = new Node*[solution.getSize()];
-
-    size_t replaceFromInd = 0;
-    size_t replaceToInd = 0;
+    int replaceFromInd = 0;
+    int replaceToInd = 0;
     int temp = 0;
-    for (replaceFromInd = 0; replaceFromInd < solution.getSize() - 2; replaceFromInd++) {
-        replaceToInd = replaceFromInd + getRandom(solution.getSize() - replaceFromInd);
-        temp = replaceInds[replaceFromInd];
-        replaceInds[replaceFromInd] = replaceInds[replaceToInd];
-        replaceInds[replaceToInd] = temp;
+    for (replaceFromInd = 0; replaceFromInd < size - 2; replaceFromInd++) {
+        replaceToInd = replaceFromInd + getRandom(size - replaceFromInd);
+        if (replaceFromInd == replaceToInd) {
+            continue;
+        }
+        std::swap(replaceInds[replaceFromInd], replaceInds[replaceToInd]);
     }
 
-    Node** oldNodes = solution.getCurrentNodes();
-    for (int i = 0; i < solution.getSize(); i++) {
-        newNodes[i] = oldNodes[replaceInds[i]];
-    }
-
-    delete[] replaceInds;
-
-    return Solution(newNodes, solution.getSize(), *solution.getDistanceMatrix());
+    return replaceInds;
 }
 
 void getTwoRandomIndicies(int n, int* result)
 {
     result[0] = getRandom(n);
-    result[1] = getRandom(n-1);
-    if (result[0] == result[1])
-    {
-        result[1] = n;
+    result[1] = getRandom(n - 1);
+    if (result[0] == result[1]) {
+        result[1] = n - 1;
     }
 }

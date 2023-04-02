@@ -7,16 +7,18 @@
 class Solution
 {
 private:
-    Node** currentNodes;
+    int* currentNodes;
     DistanceMatrix* distanceMatrix;
     int size;
     float score;
-    void calculateScore();
 public:
-    Solution(Node** nodes, int size, DistanceMatrix& distanceMatrix);
+    Solution(int* nodes, int size, DistanceMatrix& distanceMatrix);
+    Solution(Solution& solution);
     ~Solution();
-    Node** getCurrentNodes();
     DistanceMatrix* getDistanceMatrix();
+    int* getCurrentNodes();
+    void calculateScore();
+    void setScore(float score);
     float getScore();
     int getSize();
 };
