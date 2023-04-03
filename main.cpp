@@ -45,28 +45,47 @@ int main(int argc, char** argv)
 
     Solution* solution1 = new Solution(solutionNodes, instance.getSize(), distanceMatrix);
 
-    std::cout << "Manual distance for 12 and 25: " << std::endl;
-    int old1 = distanceMatrix.getDistance(11, 12) + distanceMatrix.getDistance(12, 13);
-    int old2 = distanceMatrix.getDistance(24, 25) + distanceMatrix.getDistance(25, 26);
+    Solution* solution2 = new Solution(
+        getRandomPermutation(instance.getSize()),
+        instance.getSize(),
+        distanceMatrix
+    );
 
-    int new1 = distanceMatrix.getDistance(24, 12) + distanceMatrix.getDistance(12, 26);
-    int new2 = distanceMatrix.getDistance(11, 25) + distanceMatrix.getDistance(25, 13);
+    // int* solutionNodes2 = solution2->getCurrentNodes();
 
-    std::cout << old1 + old2 << " -> " << new1 + new2 << " (" << old1 + old2 - new1 - new2 << ")" << std::endl;
+    // int index1 = 0;
+    // int index2 = 25;
 
-    NodeDelta nodeDelta(25, 12, &distanceMatrix);
-    std::cout << "Distance between 25 and 12: " << nodeDelta.getDelta() << std::endl;
-    return 0;
+    // std::cout << "Manual distance for " << index1 << " and " << index2 << ":" << std::endl;
+    // float old1 = distanceMatrix.getDistance(solution2->getNode(index1 - 1), solution2->getNode(index1)) + distanceMatrix.getDistance(solution2->getNode(index1), solution2->getNode(index1 + 1));
+    // float old2 = distanceMatrix.getDistance(solution2->getNode(index2 - 1), solution2->getNode(index2)) + distanceMatrix.getDistance(solution2->getNode(index2), solution2->getNode(index2 + 1));
+
+    // float new1 = distanceMatrix.getDistance(solution2->getNode(index2 - 1), solution2->getNode(index1)) + distanceMatrix.getDistance(solution2->getNode(index1), solution2->getNode(index2 + 1));
+    // float new2 = distanceMatrix.getDistance(solution2->getNode(index1 - 1), solution2->getNode(index2)) + distanceMatrix.getDistance(solution2->getNode(index2), solution2->getNode(index1 + 1));
+
+    // std::cout << old1 + old2 << " -> " << new1 + new2 << " (" << old1 + old2 - new1 - new2 << ")" << std::endl;
+
+    // NodeDelta nodeDelta(index1, index2, solution2);
+    // std::cout << "Distance between " << index1 << " and " << index2 << ": " << nodeDelta.getDelta() << std::endl;
+    // NodeDelta nodeDelta2(index1 + 1, index2, solution2);
+    // std::cout << "Distance between " << index1 + 1 << " and " << index2 << ": " << nodeDelta2.getDelta() << std::endl;
+
+    // std::cout << "Is nodeDelta > nodeDelta2? " << (nodeDelta > nodeDelta2) << std::endl;
+    // std::cout << "Is nodeDelta2 > nodeDelta? " << (nodeDelta2 > nodeDelta) << std::endl;
+    // std::cout << "Is nodeDelta == nodeDelta2? " << (nodeDelta == nodeDelta2) << std::endl;
+
+    // return 0;
 
     print_stats(*solution1);
 
     // RandomAlgorithm randomAlgorithm;
-    // RandomWalkAlgorithm randomAlgorithm;
-    HeuristicAlgorithm randomAlgorithm;
-    Solution* solution2 = randomAlgorithm.run(solution1);
+    RandomWalkAlgorithm randomAlgorithm;
+    // HeuristicAlgorithm randomAlgorithm;
+    // Solution* solution2 = randomAlgorithm.run(solution1);
 
     print_stats(*solution2);
 
+    delete solution1;
     delete solution2;
 
     return 0;

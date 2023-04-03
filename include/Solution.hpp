@@ -20,5 +20,6 @@ public:
     void calculateScore();
     void setScore(float score);
     float getScore();
+    int getNode(int index);
     int getSize();
 };

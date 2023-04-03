@@ -46,6 +46,19 @@ float Solution::getScore()
     return this->score;
 }
 
+int Solution::getNode(int index)
+{
+    if (index == -1) {
+        return this->currentNodes[this->size - 1];
+    } else if (index == this->size) {
+        return this->currentNodes[0];
+    } else if (-1 < index && index < this->size) {
+        return this->currentNodes[index];
+    } else {
+        throw std::invalid_argument("Index out of bounds");
+    }
+}
+
 int Solution::getSize()
 {
     return this->size;
