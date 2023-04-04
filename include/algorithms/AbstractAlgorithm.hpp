@@ -5,5 +5,4 @@
 class AbstractAlgorithm {
 public:
     virtual Solution* run(Solution* initialSolution) = 0;
-    ~AbstractAlgorithm() = default;
 };

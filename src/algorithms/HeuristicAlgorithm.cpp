@@ -27,7 +27,6 @@ Solution* HeuristicAlgorithm::run(Solution* initialSolution)
     }
 
     Solution* solution = new Solution(heuristic_solution, initialSolution->getSize(), *initialSolution->getDistanceMatrix());
-    delete initialSolution;
 
     return solution;
 };

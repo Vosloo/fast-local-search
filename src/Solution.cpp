@@ -23,7 +23,6 @@ Solution::Solution(Solution& solution)
 
 Solution::~Solution()
 {
-    std::cout << "Deleting solution" << std::endl;
     delete[] this->currentNodes;
 }
 

@@ -6,10 +6,10 @@
 class GreedyAlgorithm : public AbstractAlgorithm {
 private:
     int instanceSize;
-    int* neigbourhood;
+    int neigbourhoodSize;
+    int** neigbourhood;
 public:
     GreedyAlgorithm(int instanceSize);
-    ~GreedyAlgorithm() override;
+    ~GreedyAlgorithm();
     Solution* run(Solution* initialSolution) override;
-    int getNeighborhood(int n);
 };

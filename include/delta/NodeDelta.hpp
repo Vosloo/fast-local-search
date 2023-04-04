@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DistanceMatrix.hpp"
 #include "Solution.hpp"
 
 class NodeDelta {
