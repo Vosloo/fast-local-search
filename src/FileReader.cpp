@@ -1,8 +1,8 @@
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <filesystem>
 
 #include "FileReader.hpp"
 #include "Instance.hpp"
@@ -25,7 +25,7 @@ void FileReader::splitString(std::string& str, std::vector<std::string>& split, 
 
 Instance FileReader::loadTspInstance(std::string& filename)
 {
-    std::filesystem::path path = std::filesystem::current_path() / "../data" / filename;
+    std::filesystem::path path = std::filesystem::current_path() / "../data" / "instances" / filename;
     std::ifstream file(path);
 
     if (!file.is_open()) {
@@ -37,24 +37,38 @@ Instance FileReader::loadTspInstance(std::string& filename)
     bool coordsSection = false;
     int curInd = 0;
 
+    int dimNum = -1;
+    std::string dimension = "DIMENSION";
+
     std::string line;
     std::vector<std::string> split;
     while (std::getline(file, line)) {
         this->splitString(line, split);
 
+        if (dimNum == -1) {
+            if (split.size() == 2) {
+                dimNum = 1;
+                dimension += ":";
+            } else if (split.size() == 3) {
+                dimNum = 2;
+            } else {
+                throw std::runtime_error("Should not happen - more than 3 splits in line");
+            }
+        }
+
         if (split[0] == "EOF") {
             break;
         }
         if (!coordsSection) {
-            if (split[0] == "DIMENSION:") {
-                numberOfNodes = std::stoi(split[1]);
+            if (split[0] == dimension) {
+                numberOfNodes = std::stoi(split[dimNum]);
                 nodes = new Node*[numberOfNodes];
             } else if (split[0] == "NODE_COORD_SECTION") {
                 coordsSection = true;
             }
         } else {
             // Index is 1-based, so we subtract 1
-            nodes[curInd] = new Node(std::stoi(split[0]) - 1, std::stoi(split[1]), std::stoi(split[2]));
+            nodes[curInd] = new Node(std::stoi(split[0]) - 1, std::stod(split[1]), std::stod(split[2]));
             curInd++;
         }
     }

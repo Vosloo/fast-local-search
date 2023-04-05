@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 {
     srand(time(NULL));
 
-    std::string filename = "kroA100.tsp";
+    std::string filename = "kroD100.tsp";
     FileReader fileReader;
 
     Instance instance = fileReader.loadTspInstance(filename);
@@ -40,12 +40,7 @@ int main(int argc, char** argv)
 
     DistanceMatrix distanceMatrix(&instance);
 
-    int* solutionNodes = new int[instance.getSize()];
-    for (int i = 0; i < instance.getSize(); i++) {
-        solutionNodes[i] = i;
-    }
-
-    Solution* solution1 = new Solution(solutionNodes, instance.getSize(), distanceMatrix);
+    Solution* solution1 = new Solution(getRandomPermutation(instance.getSize()), instance.getSize(), distanceMatrix);
 
     print_stats(*solution1);
 
