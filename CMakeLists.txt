@@ -14,7 +14,7 @@ set(APP_SOURCES
     include/algorithms/HeuristicAlgorithm.hpp
     include/algorithms/RandomAlgorithm.hpp
     include/algorithms/RandomWalkAlgorithm.hpp
-    # include/algorithms/SteepestAlgorithm.hpp
+    include/algorithms/SteepestAlgorithm.hpp
     include/delta/NodeDelta.hpp
     include/delta/EdgeDelta.hpp
     src/DistanceMatrix.cpp
@@ -27,7 +27,7 @@ set(APP_SOURCES
     src/algorithms/HeuristicAlgorithm.cpp
     src/algorithms/RandomAlgorithm.cpp
     src/algorithms/RandomWalkAlgorithm.cpp
-    # src/algorithms/SteepestAlgorithm.cpp
+    src/algorithms/SteepestAlgorithm.cpp
     src/delta/NodeDelta.cpp
     src/delta/EdgeDelta.cpp
 )

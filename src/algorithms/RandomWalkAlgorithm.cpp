@@ -7,12 +7,6 @@
 
 Solution* RandomWalkAlgorithm::run(Solution* initialSolution)
 {
-    // int* nodes = new int[initialSolution->getSize()];
-    // std::copy(
-    //     initialSolution->getCurrentNodes(),
-    //     initialSolution->getCurrentNodes() + initialSolution->getSize(), 
-    //     nodes);
-
     Solution* bestSolution = new Solution(*initialSolution);
 
     int i = 0;

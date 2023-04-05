@@ -1,5 +1,6 @@
 #include "delta/EdgeDelta.hpp"
 #include "Solution.hpp"
+#include <iostream>
 
 EdgeDelta::EdgeDelta(int node1ExternalInd, int node2InternalInd, Solution* solution)
 {
@@ -50,44 +51,18 @@ float EdgeDelta::getDelta()
 
 void EdgeDelta::apply()
 {
-    // Tricky case
-    // 1 2 3 4 5 6 7
-    // (2, 3) with (7, 1)
-    // 
-    // 1 2 7 6 5 4 3
-    // ------
-    // 
-    // Normal case
-    // 0 1 2 3 4 5 6
-    // (1, 2) with (4, 5)
-    // 
-    // 0 1 4 3 2 5 6
-
-    // 0 1 2 3 4 5 6
-    // (1, 2) with (5, 6)
-    //
-    // 0 1 5 4 3 2 6
+    int* nodes = solution->getCurrentNodes();
 
     int node1InternalInd = node1ExternalInd + 1;
     int node2ExternalInd = node2InternalInd + 1;
 
-    if (node2ExternalInd == solution->getSize()) {
-        // Case when second edge loops back to the first node
-    } else {
-        int* currentNodes = solution->getCurrentNodes();
+    int middlePoint = node1ExternalInd + (node2InternalInd - node1ExternalInd) / 2 + 1;
 
-        int midPoint;
-        if ((node2ExternalInd - node1InternalInd) % 2 == 0) {
-            midPoint = node1InternalInd + (node2ExternalInd - node1InternalInd) / 2;
-        } else {
-            midPoint = node1InternalInd + (node2ExternalInd - node1InternalInd) / 2 + 1;
-        }
-
-        for (int i = node1InternalInd; i < midPoint; i++) {
-            std::swap(currentNodes[i], currentNodes[node2InternalInd - (i - node1InternalInd)]);
-        }
-        // TODO: Fix this
+    for (int i = node1InternalInd; i < middlePoint; i++) {
+        std::swap(nodes[i], nodes[node2InternalInd - (i - node1InternalInd)]);
     }
+
+    solution->setScore(solution->getScore() - delta);
 }
 
 bool EdgeDelta::operator>(const EdgeDelta& edgeDelta) const

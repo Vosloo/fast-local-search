@@ -11,6 +11,7 @@
 #include "algorithms/HeuristicAlgorithm.hpp"
 #include "algorithms/RandomAlgorithm.hpp"
 #include "algorithms/RandomWalkAlgorithm.hpp"
+#include "algorithms/SteepestAlgorithm.hpp"
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
 
@@ -51,7 +52,8 @@ int main(int argc, char** argv)
     // RandomAlgorithm algorithm;
     // RandomWalkAlgorithm algorithm;
     // HeuristicAlgorithm algorithm;
-    GreedyAlgorithm algorithm(solution1->getSize());
+    // GreedyAlgorithm algorithm(solution1->getSize());
+    SteepestAlgorithm algorithm(solution1->getSize());
 
     Solution* solution2 = algorithm.run(solution1);
 

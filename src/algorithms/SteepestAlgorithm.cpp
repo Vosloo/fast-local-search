@@ -1,16 +1,18 @@
 #include "algorithms/SteepestAlgorithm.hpp"
-
 #include "Solution.hpp"
+#include "delta/EdgeDelta.hpp"
+#include "utils.hpp"
 
 SteepestAlgorithm::SteepestAlgorithm(int instanceSize)
 {
     this->instanceSize = instanceSize;
+    this->neighborhoodSize = (instanceSize - 1) * (instanceSize - 2) / 2 - 1;
     this->neigbourhood = getNeighborhood(this->instanceSize);
 }
 
-GreedyAlgorithm::~SteepestAlgorithm()
+SteepestAlgorithm::~SteepestAlgorithm()
 {
-    for (int i = 0; i < this->instanceSize * (this->instanceSize - 2) / 2; i++) {
+    for (int i = 0; i < this->neighborhoodSize; i++) {
         delete[] this->neigbourhood[i];
     }
     delete[] this->neigbourhood;
@@ -18,15 +20,32 @@ GreedyAlgorithm::~SteepestAlgorithm()
 
 Solution* SteepestAlgorithm::run(Solution* initialSolution)
 {
-    Solution* currentSolution = initialSolution;
+    Solution* currentSolution = new Solution(*initialSolution);
+    EdgeDelta* bestDelta;
+    bool foundBetterSolution;
 
-    // wygenerować możliwe ruchy - gdzie delta większa od 0
-    // shuffle ruchów
-    // sprawdzić ruchy do pierwszego najbliższego jeśli istnieją
+    while (true) {
+        bestDelta = nullptr;
+        for (int i = 0; i < this->neighborhoodSize; i++) {
+            EdgeDelta* delta = new EdgeDelta(
+                this->neigbourhood[i][0],
+                this->neigbourhood[i][1],
+                currentSolution);
 
-    int neighborhood = getNeighborhood(currentSolution);
-    shuffle(neighborhood)
-    for 
+            if (delta->getDelta() > 0 && (bestDelta == nullptr || *delta > *bestDelta)) {
+                delete bestDelta;
+                bestDelta = delta;
+            } else {
+                delete delta;
+            }
+        }
+
+        if (bestDelta == nullptr) {
+            break;
+        }
+        bestDelta->apply();
+        delete bestDelta;
+    }
 
     return currentSolution;
 }

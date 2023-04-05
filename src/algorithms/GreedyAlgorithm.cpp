@@ -22,18 +22,28 @@ GreedyAlgorithm::~GreedyAlgorithm()
 Solution* GreedyAlgorithm::run(Solution* initialSolution)
 {
     Solution* currentSolution = new Solution(*initialSolution);
+    int* random_permutation;
+    bool foundBetterSolution;
 
-    int* random_permutation = getRandomPermutation(this->neigbourhoodSize);
-    for (int i = 0; i < initialSolution->getSize(); i++) {
-        EdgeDelta delta(
-            this->neigbourhood[random_permutation[i]][0],
-            this->neigbourhood[random_permutation[i]][1],
-            currentSolution);
+    while (true) {
+        foundBetterSolution = false;
+        random_permutation = getRandomPermutation(this->neigbourhoodSize);
+        for (int i = 0; i < initialSolution->getSize(); i++) {
+            EdgeDelta delta(
+                this->neigbourhood[random_permutation[i]][0],
+                this->neigbourhood[random_permutation[i]][1],
+                currentSolution);
 
-        if (delta.getDelta() > 0) {
-            std::cout << "Iteration: " << i << std::endl;
-            std::cout << "Found better solution with delta: " << delta.getDelta() << std::endl;
-            delta.apply();
+            if (delta.getDelta() > 0) {
+                delta.apply();
+                foundBetterSolution = true;
+                break;
+            }
+        }
+
+        delete[] random_permutation;
+
+        if (!foundBetterSolution) {
             break;
         }
     }
