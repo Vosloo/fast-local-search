@@ -3,11 +3,13 @@ cmake_minimum_required(VERSION 3.13)
 project(app)
 
 set(APP_SOURCES
+    include/CsvWriter.hpp
     include/DistanceMatrix.hpp
     include/FileReader.hpp
     include/Instance.hpp
     include/Node.hpp
     include/Solution.hpp
+    include/Score.hpp
     include/utils.hpp
     include/algorithms/AbstractAlgorithm.hpp
     include/algorithms/GreedyAlgorithm.hpp
@@ -17,11 +19,13 @@ set(APP_SOURCES
     include/algorithms/SteepestAlgorithm.hpp
     include/delta/NodeDelta.hpp
     include/delta/EdgeDelta.hpp
+    src/CsvWriter.cpp
     src/DistanceMatrix.cpp
     src/FileReader.cpp
     src/Instance.cpp
     src/Node.cpp
     src/Solution.cpp
+    src/Score.cpp
     src/utils.cpp
     src/algorithms/GreedyAlgorithm.cpp
     src/algorithms/HeuristicAlgorithm.cpp

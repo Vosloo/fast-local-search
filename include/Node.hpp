@@ -4,11 +4,11 @@ class Node
 {
 private:
     int id;
-    int x;
-    int y;
+    double x;
+    double y;
 public:
-    Node(int id, int x, int y);
+    Node(int id, double x, double y);
     int getId();
-    int getX();
-    int getY();
+    double getX();
+    double getY();
 };

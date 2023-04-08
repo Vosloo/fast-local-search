@@ -11,5 +11,5 @@ class FileReader
 private:
     void splitString(std::string &str, std::vector<std::string> &split, char delimiter = ' ');
 public:
-    Instance loadTspInstance(std::string &filename);
+    Instance loadTspInstance(std::string filename);
 };

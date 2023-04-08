@@ -1,10 +1,11 @@
 #include "Instance.hpp"
 
 
-Instance::Instance(Node** nodes, int size)
+Instance::Instance(Node** nodes, int size, std::string name)
 {
     this->nodes = nodes;
     this->size = size;
+    this->name = name;
 }
 
 Instance::~Instance()
@@ -23,4 +24,9 @@ Node** Instance::getNodes()
 int Instance::getSize()
 {
     return this->size;
+}
+
+std::string Instance::getName()
+{
+    return this->name;
 }

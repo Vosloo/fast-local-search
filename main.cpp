@@ -1,11 +1,14 @@
+#include <chrono>
+#include <filesystem>
 #include <iostream>
 #include <random>
-#include <set>
 
+#include "CsvWriter.hpp"
 #include "DistanceMatrix.hpp"
 #include "FileReader.hpp"
 #include "Instance.hpp"
 #include "Node.hpp"
+#include "Score.hpp"
 #include "Solution.hpp"
 #include "algorithms/GreedyAlgorithm.hpp"
 #include "algorithms/HeuristicAlgorithm.hpp"
@@ -15,7 +18,7 @@
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
 
-void print_stats(Solution& solution)
+void printStats(Solution& solution)
 {
     std::cout << "---------------------" << std::endl;
     std::cout << "Score: " << solution.getScore() << std::endl;
@@ -28,34 +31,125 @@ void print_stats(Solution& solution)
     std::cout << "\n---------------------" << std::endl;
 }
 
+void printRunningTime(Score* score)
+{
+    std::cout << "Running time of " << score->getAlgorithmName() << ": " << score->getRunningTime() << " [ms]" << std::endl;
+}
+
+void printScore(Score* score)
+{
+    std::cout << score->getAlgorithmName()
+              << " - min: " << score->getMinScore()
+              << " / avg: " << score->getAvgScore()
+              << " / max: " << score->getMaxScore() << "\n"
+              << std::endl;
+}
+
+Score* runAlgoritmh(
+    Instance& instance,
+    AbstractAlgorithm& algorithm,
+    Solution* initialSolution,
+    int& noRuns)
+{
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    Solution* solution;
+    Solution* currentInitial = new Solution(*initialSolution);
+    int* rawScores = new int[noRuns];
+    for (int i = 0; i < noRuns; i++) {
+        solution = algorithm.run(currentInitial);
+        rawScores[i] = solution->getScore();
+
+        delete currentInitial;
+        delete solution;
+        if (i != noRuns - 1) {
+            currentInitial = new Solution(getRandomPermutation(initialSolution->getSize()), initialSolution->getSize(), *initialSolution->getDistanceMatrix());
+        }
+    }
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    int64_t runTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+
+    return new Score(instance, algorithm, initialSolution, noRuns, rawScores, runTime);
+}
+
+int runAlgorithms(
+    Instance& instance,
+    AbstractAlgorithm* algorithms[],
+    Solution* initialSolution,
+    int& noRuns,
+    int noAlgorithms,
+    CsvWriter& csvWriter)
+{
+    int greedyRunTime = -1;
+    for (int i = 0; i < noAlgorithms; i++) {
+        AbstractAlgorithm* algorithm = algorithms[i];
+        std::cout << "Running " << algorithm->getAlgorithmName() << " ..." << std::endl;
+
+        Score* score = runAlgoritmh(instance, *algorithm, initialSolution, noRuns);
+        if (algorithm->getAlgorithmName() == "GreedyAlgorithm") {
+            greedyRunTime = score->getRunningTime();
+        }
+
+        printRunningTime(score);
+        printScore(score);
+
+        csvWriter.writeScore(score, "results.csv");
+
+        delete algorithm;
+        delete score;
+    }
+
+    return greedyRunTime;
+}
+
 int main(int argc, char** argv)
 {
+    if (argc != 2) {
+        std::cout << "Usage: ./tsp <no_runs>" << std::endl;
+        return 1;
+    }
+
+    std::cout << argv[1] << std::endl;
+
     srand(time(NULL));
 
-    std::string filename = "kroD100.tsp";
     FileReader fileReader;
+    CsvWriter csvWriter;
 
-    Instance instance = fileReader.loadTspInstance(filename);
-    std::cout << "Number of nodes: " << instance.getSize() << std::endl;
+    std::filesystem::path instancesDir = std::filesystem::current_path() / "../data" / "instances";
 
-    DistanceMatrix distanceMatrix(&instance);
+    int noRuns = std::stoi(argv[1]);
+    std::cout << "No. runs: " << noRuns << std::endl;
+    for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
+        if (instancePath.path().stem() == "pcb442") {
+            continue; // Too big for steepest, for now don't run it
+        }
 
-    Solution* solution1 = new Solution(getRandomPermutation(instance.getSize()), instance.getSize(), distanceMatrix);
+        std::cout << "-----------------\n" << "Running instance: " << instancePath.path().stem() << "\n-----------------\n" << std::endl;
 
-    print_stats(*solution1);
+        Instance instance = fileReader.loadTspInstance(instancePath.path().stem());
+        DistanceMatrix distanceMatrix(&instance);
+        Solution* initialSolution = new Solution(getRandomPermutation(instance.getSize()), instance.getSize(), distanceMatrix);
 
-    // RandomAlgorithm algorithm;
-    // RandomWalkAlgorithm algorithm;
-    // HeuristicAlgorithm algorithm;
-    // GreedyAlgorithm algorithm(solution1->getSize());
-    SteepestAlgorithm algorithm(solution1->getSize());
+        AbstractAlgorithm* firstAlgorithms[] = {
+            new SteepestAlgorithm(initialSolution->getSize()),
+            new GreedyAlgorithm(initialSolution->getSize()),
+            new HeuristicAlgorithm(),
+        };
 
-    Solution* solution2 = algorithm.run(solution1);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter);
+        std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
-    print_stats(*solution2);
+        AbstractAlgorithm* secondAlgorithms[] = {
+            new RandomAlgorithm((float)greedyRunTime / noRuns),
+            new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
+        };
 
-    delete solution1;
-    delete solution2;
+        runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, 2, csvWriter);
+
+        delete initialSolution;
+    }
 
     return 0;
 }

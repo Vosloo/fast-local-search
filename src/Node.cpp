@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Node::Node(int id, int x, int y)
+Node::Node(int id, double x, double y)
 {
     this->id = id;
     this->x = x;
@@ -14,12 +14,12 @@ int Node::getId()
     return this->id;
 }
 
-int Node::getX()
+double Node::getX()
 {
     return this->x;
 }
 
-int Node::getY()
+double Node::getY()
 {
     return this->y;
 }

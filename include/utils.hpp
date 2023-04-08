@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "Solution.hpp"
 
 int getRandom(int upperLimit);

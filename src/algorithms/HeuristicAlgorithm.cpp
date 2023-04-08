@@ -6,6 +6,10 @@
 #include "utils.hpp"
 #include "algorithms/HeuristicAlgorithm.hpp"
 
+HeuristicAlgorithm::HeuristicAlgorithm()
+{
+    setAlgorithmName("HeuristicAlgorithm");
+}
 
 Solution* HeuristicAlgorithm::run(Solution* initialSolution)
 {

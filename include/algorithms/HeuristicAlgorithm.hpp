@@ -8,4 +8,5 @@
 class HeuristicAlgorithm : public AbstractAlgorithm {
 public:
     Solution* run(Solution* initialSolution) override;
+    HeuristicAlgorithm();
 };

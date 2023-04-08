@@ -9,6 +9,7 @@ GreedyAlgorithm::GreedyAlgorithm(int instanceSize)
     this->instanceSize = instanceSize;
     this->neigbourhoodSize = (instanceSize - 1) * (instanceSize - 2) / 2 - 1;
     this->neigbourhood = getNeighborhood(this->instanceSize);
+    setAlgorithmName("GreedyAlgorithm");
 }
 
 GreedyAlgorithm::~GreedyAlgorithm()

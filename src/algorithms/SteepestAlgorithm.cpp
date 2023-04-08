@@ -8,6 +8,7 @@ SteepestAlgorithm::SteepestAlgorithm(int instanceSize)
     this->instanceSize = instanceSize;
     this->neighborhoodSize = (instanceSize - 1) * (instanceSize - 2) / 2 - 1;
     this->neigbourhood = getNeighborhood(this->instanceSize);
+    setAlgorithmName("SteepestAlgorithm");
 }
 
 SteepestAlgorithm::~SteepestAlgorithm()
