@@ -110,8 +110,6 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    std::cout << argv[1] << std::endl;
-
     srand(time(NULL));
 
     FileReader fileReader;
