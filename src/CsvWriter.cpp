@@ -31,6 +31,27 @@ void CsvWriter::writeScore(Score* score, std::string filename)
             << score->getMinScore() << delimiter << score->getAvgScore() << delimiter 
             << score->getMaxScore() << delimiter <<  score->getStdDev() << delimiter 
             << score->getInitialScore() << "\n";
+    
+    std::filesystem::path rawScoresPath = std::filesystem::current_path() / "../data" / (path.stem().string() + "_raw.csv");
+    std::ofstream rawScoresFile(rawScoresPath, std::ios_base::app);
+
+    if (!rawScoresFile.is_open()) {
+        throw std::runtime_error("Could not open CSV file: " + rawScoresPath.string());
+    }
+
+    if (rawScoresFile.tellp() == 0) {
+        rawScoresFile << "instanceName" << delimiter << "algorithmName" << delimiter 
+                      << "noRun" << delimiter << "score" << delimiter
+                      << "noEvaluations" << delimiter << "noSteps" << delimiter 
+                      << "initialSolutionScore" << "\n";
+    }
+
+    for (int i = 0; i < score->getNoRuns(); i++) {
+        rawScoresFile << score->getInstanceName() << delimiter << score->getAlgorithmName() << delimiter 
+                      << i << delimiter << score->getRawScores()[i] << delimiter
+                      << score->getNoEvaluations()[i] << delimiter << score->getNoSteps()[i] << delimiter 
+                      << score->getInitialSolutionScores()[i] << "\n";
+    }
 
     outfile.close();
 }

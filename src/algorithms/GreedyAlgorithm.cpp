@@ -20,7 +20,7 @@ GreedyAlgorithm::~GreedyAlgorithm()
     delete[] this->neigbourhood;
 }
 
-Solution* GreedyAlgorithm::run(Solution* initialSolution)
+Solution* GreedyAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* currentSolution = new Solution(*initialSolution);
     int* random_permutation;
@@ -34,9 +34,11 @@ Solution* GreedyAlgorithm::run(Solution* initialSolution)
                 this->neigbourhood[random_permutation[i]][0],
                 this->neigbourhood[random_permutation[i]][1],
                 currentSolution);
+            noEvaluations++;
 
             if (delta.getDelta() > 0) {
                 delta.apply();
+                noSteps++;
                 foundBetterSolution = true;
                 break;
             }

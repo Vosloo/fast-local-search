@@ -12,7 +12,7 @@ protected:
         this->algorithmName = algorithmName;
     }
 public:
-    virtual Solution* run(Solution* initialSolution) = 0;
+    virtual Solution* run(Solution* initialSolution, int& noEvaluations, int& noSteps) = 0;
     virtual ~AbstractAlgorithm() = default;
     std::string getAlgorithmName() {
         return algorithmName;

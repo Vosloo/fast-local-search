@@ -11,5 +11,5 @@ private:
 public:
     SteepestAlgorithm(int instanceSize);
     ~SteepestAlgorithm();
-    Solution* run(Solution* initialSolution) override;
+    Solution* run(Solution* initialSolution, int& noEvaluations, int& noSteps) override;
 };

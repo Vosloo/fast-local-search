@@ -12,7 +12,10 @@ private:
     AbstractAlgorithm& algorithm;
     Solution* initialSolution;
     int& noRuns;
-    int* scores;
+    int* rawScores;
+    int* noEvaluations;
+    int* noSteps;
+    float* initialSolutionScores;
     int runningTime; // in ms
     int minScore;
     float avgScore;
@@ -26,12 +29,19 @@ public:
         AbstractAlgorithm& algorithm,
         Solution* initialSolution,
         int& noRuns,
-        int* scores,
+        int* rawScores,
+        int* noEvaluations,
+        int* noSteps,
+        float* initialSolutionScores,
         int runningTime);
     ~Score();
     std::string getInstanceName();
     std::string getAlgorithmName();
     int getNoRuns();
+    int* getRawScores();
+    int* getNoEvaluations();
+    int* getNoSteps();
+    float* getInitialSolutionScores();
     int getRunningTime();
     int getMinScore();
     float getAvgScore();

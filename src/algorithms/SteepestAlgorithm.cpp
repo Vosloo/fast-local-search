@@ -19,7 +19,7 @@ SteepestAlgorithm::~SteepestAlgorithm()
     delete[] this->neigbourhood;
 }
 
-Solution* SteepestAlgorithm::run(Solution* initialSolution)
+Solution* SteepestAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* currentSolution = new Solution(*initialSolution);
     EdgeDelta* bestDelta;
@@ -32,6 +32,7 @@ Solution* SteepestAlgorithm::run(Solution* initialSolution)
                 this->neigbourhood[i][0],
                 this->neigbourhood[i][1],
                 currentSolution);
+            noEvaluations++;
 
             if (delta->getDelta() > 0 && (bestDelta == nullptr || *delta > *bestDelta)) {
                 delete bestDelta;
@@ -44,6 +45,7 @@ Solution* SteepestAlgorithm::run(Solution* initialSolution)
         if (bestDelta == nullptr) {
             break;
         }
+        noSteps++;
         bestDelta->apply();
         delete bestDelta;
     }

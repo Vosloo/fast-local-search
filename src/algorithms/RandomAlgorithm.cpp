@@ -11,9 +11,9 @@ RandomAlgorithm::RandomAlgorithm(float maxRuntime)
     setAlgorithmName("RandomAlgorithm");
 }
 
-Solution* RandomAlgorithm::run(Solution* initialSolution)
+Solution* RandomAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
-    Solution* bestSolution = nullptr;
+    Solution* bestSolution = new Solution(*initialSolution);
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
@@ -22,11 +22,11 @@ Solution* RandomAlgorithm::run(Solution* initialSolution)
             getRandomPermutation(initialSolution->getSize()),
             initialSolution->getSize(),
             *initialSolution->getDistanceMatrix());
+        noEvaluations++;
 
-        if (bestSolution == nullptr) {
-            bestSolution = currentSolution;
-        } else if (currentSolution < bestSolution) {
+        if (*currentSolution < *bestSolution) {
             delete bestSolution;
+            noSteps++;
             bestSolution = currentSolution;
         } else {
             delete currentSolution;

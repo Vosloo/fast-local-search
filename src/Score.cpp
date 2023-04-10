@@ -8,13 +8,19 @@ Score::Score(
     AbstractAlgorithm& algorithm,
     Solution* initialSolution,
     int& noRuns,
-    int* scores,
+    int* rawScores,
+    int* noEvaluations,
+    int* noSteps,
+    float* initialSolutionScores,
     int runningTime)
     : instance(instance)
     , algorithm(algorithm)
     , initialSolution(initialSolution)
     , noRuns(noRuns)
-    , scores(scores)
+    , rawScores(rawScores)
+    , noEvaluations(noEvaluations)
+    , noSteps(noSteps)
+    , initialSolutionScores(initialSolutionScores)
     , runningTime(runningTime)
 {
     this->calculateScores();
@@ -22,7 +28,10 @@ Score::Score(
 
 Score::~Score()
 {
-    delete[] this->scores;
+    delete[] this->rawScores;
+    delete[] this->noEvaluations;
+    delete[] this->noSteps;
+    delete[] this->initialSolutionScores;
 }
 
 std::string Score::getInstanceName()
@@ -38,6 +47,26 @@ std::string Score::getAlgorithmName()
 int Score::getNoRuns()
 {
     return this->noRuns;
+}
+
+int* Score::getRawScores()
+{
+    return this->rawScores;
+}
+
+int* Score::getNoEvaluations()
+{
+    return this->noEvaluations;
+}
+
+int* Score::getNoSteps()
+{
+    return this->noSteps;
+}
+
+float* Score::getInitialSolutionScores()
+{
+    return this->initialSolutionScores;
 }
 
 int Score::getRunningTime()
@@ -73,15 +102,15 @@ int Score::getInitialScore()
 void Score::calculateScores()
 {
     int sum = 0;
-    this->minScore = this->scores[0];
-    this->maxScore = this->scores[0];
+    this->minScore = this->rawScores[0];
+    this->maxScore = this->rawScores[0];
     for (int i = 0; i < this->noRuns; i++) {
-        sum += this->scores[i];
-        if (this->scores[i] < this->minScore) {
-            this->minScore = this->scores[i];
+        sum += this->rawScores[i];
+        if (this->rawScores[i] < this->minScore) {
+            this->minScore = this->rawScores[i];
         }
-        if (this->scores[i] > this->maxScore) {
-            this->maxScore = this->scores[i];
+        if (this->rawScores[i] > this->maxScore) {
+            this->maxScore = this->rawScores[i];
         }
     }
 
@@ -89,7 +118,7 @@ void Score::calculateScores()
 
     float sumOfSquares = 0;
     for (int i = 0; i < this->noRuns; i++) {
-        sumOfSquares += (this->scores[i] - this->avgScore) * (this->scores[i] - this->avgScore);
+        sumOfSquares += (this->rawScores[i] - this->avgScore) * (this->rawScores[i] - this->avgScore);
     }
     this->stdDev = sqrt(sumOfSquares / this->noRuns);
 }

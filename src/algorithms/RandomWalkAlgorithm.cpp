@@ -13,7 +13,7 @@ RandomWalkAlgorithm::RandomWalkAlgorithm(float maxRuntime)
     setAlgorithmName("RandomWalkAlgorithm");
 }
 
-Solution* RandomWalkAlgorithm::run(Solution* initialSolution)
+Solution* RandomWalkAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* bestSolution = new Solution(*initialSolution);
 
@@ -24,8 +24,10 @@ Solution* RandomWalkAlgorithm::run(Solution* initialSolution)
         getTwoRandomIndicies(bestSolution->getSize(), indices);
 
         NodeDelta nodeDelta(indices[0], indices[1], bestSolution);
+        noEvaluations++;
 
         if (nodeDelta.getDelta() > 0) {
+            noSteps++;
             nodeDelta.apply();
         }
     }

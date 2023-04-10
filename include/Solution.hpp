@@ -22,4 +22,7 @@ public:
     float getScore();
     int getNode(int index);
     int getSize();
+    bool operator<(const Solution& solution) const;
+    bool operator>(const Solution& solution) const;
+    bool operator==(const Solution& solution) const;
 };

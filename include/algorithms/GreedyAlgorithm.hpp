@@ -11,5 +11,5 @@ private:
 public:
     GreedyAlgorithm(int instanceSize);
     ~GreedyAlgorithm();
-    Solution* run(Solution* initialSolution) override;
+    Solution* run(Solution* initialSolution, int& noEvaluations, int& noSteps) override;
 };

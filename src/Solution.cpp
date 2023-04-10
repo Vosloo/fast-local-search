@@ -72,3 +72,18 @@ DistanceMatrix* Solution::getDistanceMatrix()
 {
     return this->distanceMatrix;
 }
+
+bool Solution::operator<(const Solution& solution) const
+{
+    return this->score < solution.score;
+}
+
+bool Solution::operator>(const Solution& solution) const
+{
+    return this->score > solution.score;
+}
+
+bool Solution::operator==(const Solution& solution) const
+{
+    return this->score == solution.score;
+}

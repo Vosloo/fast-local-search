@@ -11,7 +11,7 @@ HeuristicAlgorithm::HeuristicAlgorithm()
     setAlgorithmName("HeuristicAlgorithm");
 }
 
-Solution* HeuristicAlgorithm::run(Solution* initialSolution)
+Solution* HeuristicAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     int current_node = getRandom(initialSolution->getSize());
     std::set <int> visited = {current_node};

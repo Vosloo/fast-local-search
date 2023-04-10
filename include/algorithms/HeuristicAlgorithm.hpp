@@ -7,6 +7,6 @@
 
 class HeuristicAlgorithm : public AbstractAlgorithm {
 public:
-    Solution* run(Solution* initialSolution) override;
+    Solution* run(Solution* initialSolution, int& noEvaluations, int& noSteps) override;
     HeuristicAlgorithm();
 };

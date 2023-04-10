@@ -8,6 +8,6 @@ private:
     float maxRuntime;
 
 public:
-    Solution* run(Solution* initialSolution) override;
+    Solution* run(Solution* initialSolution, int& noEvaluations, int& noSteps) override;
     RandomAlgorithm(float maxRuntime);
 };

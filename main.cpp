@@ -56,9 +56,13 @@ Score* runAlgoritmh(
     Solution* solution;
     Solution* currentInitial = new Solution(*initialSolution);
     int* rawScores = new int[noRuns];
+    int* noEvaluations = new int[noRuns] { 0 };
+    int* noSteps = new int[noRuns] { 0 };
+    float* initialSolutionScores = new float[noRuns];
     for (int i = 0; i < noRuns; i++) {
-        solution = algorithm.run(currentInitial);
+        solution = algorithm.run(currentInitial, noEvaluations[i], noSteps[i]);
         rawScores[i] = solution->getScore();
+        initialSolutionScores[i] = currentInitial->getScore();
 
         delete currentInitial;
         delete solution;
@@ -70,7 +74,16 @@ Score* runAlgoritmh(
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     int64_t runTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
 
-    return new Score(instance, algorithm, initialSolution, noRuns, rawScores, runTime);
+    return new Score(
+        instance,
+        algorithm,
+        initialSolution,
+        noRuns,
+        rawScores,
+        noEvaluations,
+        noSteps,
+        initialSolutionScores,
+        runTime);
 }
 
 int runAlgorithms(
@@ -79,7 +92,8 @@ int runAlgorithms(
     Solution* initialSolution,
     int& noRuns,
     int noAlgorithms,
-    CsvWriter& csvWriter)
+    CsvWriter& csvWriter,
+    std::string outputFilename)
 {
     int greedyRunTime = -1;
     for (int i = 0; i < noAlgorithms; i++) {
@@ -94,7 +108,7 @@ int runAlgorithms(
         printRunningTime(score);
         printScore(score);
 
-        csvWriter.writeScore(score, "results.csv");
+        csvWriter.writeScore(score, outputFilename);
 
         delete algorithm;
         delete score;
@@ -105,9 +119,14 @@ int runAlgorithms(
 
 int main(int argc, char** argv)
 {
-    if (argc != 2) {
-        std::cout << "Usage: ./tsp <no_runs>" << std::endl;
+    if (argc < 2) {
+        std::cout << "Usage: ./tsp <no_runs> [optional_output_filename]" << std::endl;
         return 1;
+    }
+
+    std::string outputFilename = "results.csv";
+    if (argc == 3) {
+        outputFilename = argv[2];
     }
 
     srand(time(NULL));
@@ -120,13 +139,17 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() == "pcb442") {
+        if (instancePath.path().stem() != "kroA100") {
             continue; // Too big for steepest, for now don't run it
         }
 
-        std::cout << "-----------------\n" << "Running instance: " << instancePath.path().stem() << "\n-----------------\n" << std::endl;
+        std::cout << "-----------------\n"
+                  << "Running instance: " << instancePath.path().stem() << " (";
 
         Instance instance = fileReader.loadTspInstance(instancePath.path().stem());
+        std::cout << instance.getSize() << " nodes)"
+                  << "\n-----------------\n"
+                  << std::endl;
         DistanceMatrix distanceMatrix(&instance);
         Solution* initialSolution = new Solution(getRandomPermutation(instance.getSize()), instance.getSize(), distanceMatrix);
 
@@ -136,7 +159,7 @@ int main(int argc, char** argv)
             new HeuristicAlgorithm(),
         };
 
-        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
         AbstractAlgorithm* secondAlgorithms[] = {
@@ -144,7 +167,7 @@ int main(int argc, char** argv)
             new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
         };
 
-        runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, 2, csvWriter);
+        runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, 2, csvWriter, outputFilename);
 
         delete initialSolution;
     }
