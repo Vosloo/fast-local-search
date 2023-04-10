@@ -139,7 +139,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() != "kroA100") {
+        if (instancePath.path().stem() == "pcb442") {
             continue; // Too big for steepest, for now don't run it
         }
 
