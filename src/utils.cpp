@@ -9,25 +9,17 @@ int getRandom(int upperLimit)
     return rand() % upperLimit;
 }
 
-int* getRandomPermutation(int size)
+void getRandomPermutation(int* arr, int size)
 {
-    int* replaceInds = new int[size];
-    for (int i = 0; i < size; i++) {
-        replaceInds[i] = i;
-    }
-
     int replaceFromInd = 0;
     int replaceToInd = 0;
-    int temp = 0;
     for (replaceFromInd = 0; replaceFromInd < size - 2; replaceFromInd++) {
         replaceToInd = replaceFromInd + getRandom(size - replaceFromInd);
         if (replaceFromInd == replaceToInd) {
             continue;
         }
-        std::swap(replaceInds[replaceFromInd], replaceInds[replaceToInd]);
+        std::swap(arr[replaceFromInd], arr[replaceToInd]);
     }
-
-    return replaceInds;
 }
 
 void getTwoRandomIndicies(int n, int* result)

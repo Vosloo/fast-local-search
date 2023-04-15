@@ -14,12 +14,19 @@ RandomAlgorithm::RandomAlgorithm(float maxRuntime)
 Solution* RandomAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* bestSolution = new Solution(*initialSolution);
+    Solution* currentSolution;
+    
+    int* randomPermutation = new int[initialSolution->getSize()];
+    for (int i = 0; i < initialSolution->getSize(); i++) {
+        randomPermutation[i] = i;
+    }
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     while (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - begin).count() < maxRuntime) {
-        Solution* currentSolution = new Solution(
-            getRandomPermutation(initialSolution->getSize()),
+        getRandomPermutation(randomPermutation, initialSolution->getSize());
+        currentSolution = new Solution(
+            randomPermutation,
             initialSolution->getSize(),
             *initialSolution->getDistanceMatrix());
         noEvaluations++;
@@ -32,6 +39,8 @@ Solution* RandomAlgorithm::run(Solution* initialSolution, int& noEvaluations, in
             delete currentSolution;
         }
     }
+
+    delete[] randomPermutation;
 
     return bestSolution;
 }

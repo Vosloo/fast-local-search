@@ -23,22 +23,22 @@ Solution* SteepestAlgorithm::run(Solution* initialSolution, int& noEvaluations, 
 {
     Solution* currentSolution = new Solution(*initialSolution);
     EdgeDelta* bestDelta;
-    bool foundBetterSolution;
+    EdgeDelta* currentDelta;
 
     while (true) {
         bestDelta = nullptr;
         for (int i = 0; i < this->neighborhoodSize; i++) {
-            EdgeDelta* delta = new EdgeDelta(
+            currentDelta = new EdgeDelta(
                 this->neigbourhood[i][0],
                 this->neigbourhood[i][1],
                 currentSolution);
             noEvaluations++;
 
-            if (delta->getDelta() > 0 && (bestDelta == nullptr || *delta > *bestDelta)) {
+            if (currentDelta->getDelta() > 0 && (bestDelta == nullptr || *currentDelta > *bestDelta)) {
                 delete bestDelta;
-                bestDelta = delta;
+                bestDelta = currentDelta;
             } else {
-                delete delta;
+                delete currentDelta;
             }
         }
 

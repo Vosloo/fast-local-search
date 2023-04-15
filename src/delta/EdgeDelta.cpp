@@ -12,14 +12,6 @@ EdgeDelta::EdgeDelta(int node1ExternalInd, int node2InternalInd, Solution* solut
 
 float EdgeDelta::calculateDelta()
 {
-    // 1 2 3 4 5 6 7 8
-    // (2, 3) with (6, 7)
-    // (ext1, int1) with (int2, ext2)
-    //
-    // 1 2 6 5 4 3 7 8
-    // (2, 6) with (3, 7)
-    // (ext1, int2) with (int1, ext2)
-
     int node1InternalInd = node1ExternalInd + 1;
     int node2ExternalInd = node2InternalInd + 1;
 
@@ -54,8 +46,6 @@ void EdgeDelta::apply()
     int* nodes = solution->getCurrentNodes();
 
     int node1InternalInd = node1ExternalInd + 1;
-    int node2ExternalInd = node2InternalInd + 1;
-
     int middlePoint = node1ExternalInd + (node2InternalInd - node1ExternalInd) / 2 + 1;
 
     for (int i = node1InternalInd; i < middlePoint; i++) {

@@ -2,11 +2,12 @@
 #include "DistanceMatrix.hpp"
 #include "Node.hpp"
 
-Solution::Solution(int* nodes, int size, DistanceMatrix& distanceMatrix)
+Solution::Solution(int* nodes, int size, DistanceMatrix& distanceMatrix, bool freeOnDelete)
 {
     this->size = size;
     this->currentNodes = nodes;
     this->distanceMatrix = &distanceMatrix;
+    this->freeOnDelete = freeOnDelete;
     this->calculateScore();
 }
 
@@ -17,13 +18,16 @@ Solution::Solution(Solution& solution)
     for (int i = 0; i < this->size; i++) {
         this->currentNodes[i] = solution.getCurrentNodes()[i];
     }
+    this->freeOnDelete = true;
     this->distanceMatrix = solution.getDistanceMatrix();
     this->score = solution.getScore();
 }
 
 Solution::~Solution()
 {
-    delete[] this->currentNodes;
+    if (this->freeOnDelete) {
+        delete[] this->currentNodes;
+    }
 }
 
 void Solution::calculateScore()

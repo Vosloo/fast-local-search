@@ -51,14 +51,22 @@ Score* runAlgoritmh(
     Solution* initialSolution,
     int& noRuns)
 {
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     Solution* solution;
     Solution* currentInitial = new Solution(*initialSolution);
+
+    int* randomPermutation = new int[initialSolution->getSize()];
+    for (int i = 0; i < initialSolution->getSize(); i++) {
+        randomPermutation[i] = i;
+    }
+
     int* rawScores = new int[noRuns];
     int* noEvaluations = new int[noRuns] { 0 };
     int* noSteps = new int[noRuns] { 0 };
     float* initialSolutionScores = new float[noRuns];
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
     for (int i = 0; i < noRuns; i++) {
         solution = algorithm.run(currentInitial, noEvaluations[i], noSteps[i]);
         rawScores[i] = solution->getScore();
@@ -67,12 +75,18 @@ Score* runAlgoritmh(
         delete currentInitial;
         delete solution;
         if (i != noRuns - 1) {
-            currentInitial = new Solution(getRandomPermutation(initialSolution->getSize()), initialSolution->getSize(), *initialSolution->getDistanceMatrix());
+            getRandomPermutation(randomPermutation, initialSolution->getSize()),
+                currentInitial = new Solution(
+                    randomPermutation,
+                    initialSolution->getSize(),
+                    *initialSolution->getDistanceMatrix());
         }
     }
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     int64_t runTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+
+    delete[] randomPermutation;
 
     return new Score(
         instance,
@@ -139,7 +153,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() == "pcb442") {
+        if (instancePath.path().stem() != "pr76") {
             continue; // Too big for steepest, for now don't run it
         }
 
@@ -151,7 +165,17 @@ int main(int argc, char** argv)
                   << "\n-----------------\n"
                   << std::endl;
         DistanceMatrix distanceMatrix(&instance);
-        Solution* initialSolution = new Solution(getRandomPermutation(instance.getSize()), instance.getSize(), distanceMatrix);
+
+        int* randomPermutation = new int[instance.getSize()];
+        for (int i = 0; i < instance.getSize(); i++) {
+            randomPermutation[i] = i;
+        }
+
+        getRandomPermutation(randomPermutation, instance.getSize());
+        Solution* initialSolution = new Solution(
+            randomPermutation,
+            instance.getSize(),
+            distanceMatrix);
 
         AbstractAlgorithm* firstAlgorithms[] = {
             new SteepestAlgorithm(initialSolution->getSize()),
@@ -170,6 +194,7 @@ int main(int argc, char** argv)
         runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, 2, csvWriter, outputFilename);
 
         delete initialSolution;
+        delete[] randomPermutation;
     }
 
     return 0;

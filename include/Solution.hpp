@@ -11,8 +11,9 @@ private:
     DistanceMatrix* distanceMatrix;
     int size;
     float score;
+    bool freeOnDelete = false;
 public:
-    Solution(int* nodes, int size, DistanceMatrix& distanceMatrix);
+    Solution(int* nodes, int size, DistanceMatrix& distanceMatrix, bool freeOnDelete = false);
     Solution(Solution& solution);
     ~Solution();
     DistanceMatrix* getDistanceMatrix();

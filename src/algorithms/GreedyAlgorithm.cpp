@@ -23,16 +23,20 @@ GreedyAlgorithm::~GreedyAlgorithm()
 Solution* GreedyAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* currentSolution = new Solution(*initialSolution);
-    int* random_permutation;
-    bool foundBetterSolution;
 
+    int* randomPermutation = new int[this->neigbourhoodSize];
+    for (int i = 0; i < this->neigbourhoodSize; i++) {
+        randomPermutation[i] = i;
+    }
+
+    bool foundBetterSolution;
     while (true) {
         foundBetterSolution = false;
-        random_permutation = getRandomPermutation(this->neigbourhoodSize);
-        for (int i = 0; i < initialSolution->getSize(); i++) {
+        getRandomPermutation(randomPermutation, this->neigbourhoodSize);
+        for (int i = 0; i < this->neigbourhoodSize; i++) {
             EdgeDelta delta(
-                this->neigbourhood[random_permutation[i]][0],
-                this->neigbourhood[random_permutation[i]][1],
+                this->neigbourhood[randomPermutation[i]][0],
+                this->neigbourhood[randomPermutation[i]][1],
                 currentSolution);
             noEvaluations++;
 
@@ -44,12 +48,13 @@ Solution* GreedyAlgorithm::run(Solution* initialSolution, int& noEvaluations, in
             }
         }
 
-        delete[] random_permutation;
 
         if (!foundBetterSolution) {
             break;
         }
     }
+
+    delete[] randomPermutation;
 
     return currentSolution;
 }

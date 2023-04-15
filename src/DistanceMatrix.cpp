@@ -55,7 +55,6 @@ float DistanceMatrix::calculateDistance(int node1, int node2)
 void DistanceMatrix::calculateDistances()
 {
     float** distanceMatrix = new float*[this->instance->getSize()];
-    Node** nodes = this->instance->getNodes();
     for (int i = 0; i < this->instance->getSize(); i++) {
         distanceMatrix[i] = new float[this->instance->getSize()];
         for (int j = 0; j < this->instance->getSize(); j++) {

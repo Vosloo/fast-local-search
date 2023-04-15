@@ -17,6 +17,7 @@ set(APP_SOURCES
     include/algorithms/RandomAlgorithm.hpp
     include/algorithms/RandomWalkAlgorithm.hpp
     include/algorithms/SteepestAlgorithm.hpp
+    include/algorithms/TabuSearchAlgorithm.hpp
     include/delta/NodeDelta.hpp
     include/delta/EdgeDelta.hpp
     src/CsvWriter.cpp
@@ -32,6 +33,7 @@ set(APP_SOURCES
     src/algorithms/RandomAlgorithm.cpp
     src/algorithms/RandomWalkAlgorithm.cpp
     src/algorithms/SteepestAlgorithm.cpp
+    src/algorithms/TabuSearchAlgorithm.cpp
     src/delta/NodeDelta.cpp
     src/delta/EdgeDelta.cpp
 )
@@ -44,6 +46,7 @@ add_executable(main main.cpp)
 target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(main app_lib)
 
-add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 target_compile_features(app_lib PUBLIC cxx_std_20)
+target_compile_options(app_lib PRIVATE -Wall -Wextra -Wpedantic -Werror -O3)
 target_compile_features(main PUBLIC cxx_std_20)
+target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic -Werror -O3)
