@@ -15,6 +15,7 @@
 #include "algorithms/RandomAlgorithm.hpp"
 #include "algorithms/RandomWalkAlgorithm.hpp"
 #include "algorithms/SteepestAlgorithm.hpp"
+#include "algorithms/TabuSearchAlgorithm.hpp"
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
 
@@ -178,12 +179,13 @@ int main(int argc, char** argv)
             distanceMatrix);
 
         AbstractAlgorithm* firstAlgorithms[] = {
+            new TabuSearchAlgorithm(initialSolution->getSize()),
             new SteepestAlgorithm(initialSolution->getSize()),
             new GreedyAlgorithm(initialSolution->getSize()),
             new HeuristicAlgorithm(),
         };
 
-        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter, outputFilename);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 4, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
         AbstractAlgorithm* secondAlgorithms[] = {

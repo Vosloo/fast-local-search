@@ -10,6 +10,14 @@ EdgeDelta::EdgeDelta(int node1ExternalInd, int node2InternalInd, Solution* solut
     this->delta = calculateDelta();
 }
 
+EdgeDelta::EdgeDelta(std::tuple<int, int>& edge, Solution* solution)
+{
+    this->node1ExternalInd = std::get<0>(edge);
+    this->node2InternalInd = std::get<1>(edge);
+    this->solution = solution;
+    this->delta = calculateDelta();
+}
+
 float EdgeDelta::calculateDelta()
 {
     int node1InternalInd = node1ExternalInd + 1;
