@@ -1,0 +1,201 @@
+No. runs: 300
+-----------------
+Running instance: "ch130" (130 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 8389 [ms]
+SteepestAlgorithm - min: 6281 / avg: 6572.16 / max: 7120
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 14079 [ms]
+GreedyAlgorithm - min: 6365 / avg: 6736.78 / max: 7209
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 59 [ms]
+HeuristicAlgorithm - min: 7198 / avg: 7694.79 / max: 8644
+
+Greedy running time: 14079 and 46.93 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 14100 [ms]
+RandomAlgorithm - min: 37441 / avg: 39307.7 / max: 40378
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 14100 [ms]
+RandomWalkAlgorithm - min: 9748 / avg: 11269.8 / max: 13026
+
+-----------------
+Running instance: "kroA100" (100 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 3684 [ms]
+SteepestAlgorithm - min: 21294 / avg: 22772.1 / max: 25076
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 6155 [ms]
+GreedyAlgorithm - min: 21545 / avg: 23348.9 / max: 25356
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 36 [ms]
+HeuristicAlgorithm - min: 24698 / avg: 27123.2 / max: 28694
+
+Greedy running time: 6155 and 20.5167 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 6300 [ms]
+RandomAlgorithm - min: 128579 / avg: 138277 / max: 143938
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 6300 [ms]
+RandomWalkAlgorithm - min: 31391 / avg: 40894.7 / max: 51629
+
+-----------------
+Running instance: "kroC100" (100 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 3738 [ms]
+SteepestAlgorithm - min: 20866 / avg: 22366.3 / max: 24494
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 6102 [ms]
+GreedyAlgorithm - min: 21242 / avg: 22974.3 / max: 25439
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 36 [ms]
+HeuristicAlgorithm - min: 23566 / avg: 26176.8 / max: 29393
+
+Greedy running time: 6102 and 20.34 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 6300 [ms]
+RandomAlgorithm - min: 128803 / avg: 136913 / max: 142367
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 6300 [ms]
+RandomWalkAlgorithm - min: 32785 / avg: 40603.7 / max: 53718
+
+-----------------
+Running instance: "kroD100" (100 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 3619 [ms]
+SteepestAlgorithm - min: 21736 / avg: 22879.3 / max: 24540
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 6120 [ms]
+GreedyAlgorithm - min: 21599 / avg: 23364.7 / max: 25394
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 36 [ms]
+HeuristicAlgorithm - min: 24855 / avg: 27513.2 / max: 29998
+
+Greedy running time: 6120 and 20.4 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 6300 [ms]
+RandomAlgorithm - min: 124349 / avg: 132667 / max: 137520
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 6300 [ms]
+RandomWalkAlgorithm - min: 31315 / avg: 39862.5 / max: 51464
+
+-----------------
+Running instance: "lin105" (105 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 4365 [ms]
+SteepestAlgorithm - min: 14495 / avg: 15321.8 / max: 16536
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 7399 [ms]
+GreedyAlgorithm - min: 14488 / avg: 15781.7 / max: 17600
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 41 [ms]
+HeuristicAlgorithm - min: 16939 / avg: 18653.3 / max: 20590
+
+Greedy running time: 7399 and 24.6633 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 7500 [ms]
+RandomAlgorithm - min: 92447 / avg: 99688.5 / max: 103127
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 7500 [ms]
+RandomWalkAlgorithm - min: 22102 / avg: 29120.5 / max: 38081
+
+-----------------
+Running instance: "pr76" (76 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 1509 [ms]
+SteepestAlgorithm - min: 109143 / avg: 113641 / max: 126248
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 2400 [ms]
+GreedyAlgorithm - min: 110009 / avg: 115091 / max: 126160
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 22 [ms]
+HeuristicAlgorithm - min: 130921 / avg: 147708 / max: 157076
+
+Greedy running time: 2400 and 8 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 2400 [ms]
+RandomAlgorithm - min: 437621 / avg: 471437 / max: 490380
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 2400 [ms]
+RandomWalkAlgorithm - min: 141645 / avg: 170788 / max: 205011
+
+-----------------
+Running instance: "a280" (280 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 88334 [ms]
+SteepestAlgorithm - min: 2737 / avg: 2900.39 / max: 3080
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 165420 [ms]
+GreedyAlgorithm - min: 2779 / avg: 2990.07 / max: 3179
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 239 [ms]
+HeuristicAlgorithm - min: 3113 / avg: 3317.81 / max: 3607
+
+Greedy running time: 165420 and 551.4 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 165601 [ms]
+RandomAlgorithm - min: 28556 / avg: 29802.8 / max: 30268
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 165601 [ms]
+RandomWalkAlgorithm - min: 5338 / avg: 6315.55 / max: 7627
+
+-----------------
+Running instance: "lin318" (318 nodes)
+-----------------
+
+Running SteepestAlgorithm ...
+Running time of SteepestAlgorithm: 145977 [ms]
+SteepestAlgorithm - min: 43773 / avg: 45473.4 / max: 47909
+
+Running GreedyAlgorithm ...
+Running time of GreedyAlgorithm: 265612 [ms]
+GreedyAlgorithm - min: 44440 / avg: 47239.6 / max: 50873
+
+Running HeuristicAlgorithm ...
+Running time of HeuristicAlgorithm: 350 [ms]
+HeuristicAlgorithm - min: 49215 / avg: 52546.2 / max: 58862
+
+Greedy running time: 265612 and 885.373 per run
+Running RandomAlgorithm ...
+Running time of RandomAlgorithm: 265802 [ms]
+RandomAlgorithm - min: 500442 / avg: 522563 / max: 529897
+
+Running RandomWalkAlgorithm ...
+Running time of RandomWalkAlgorithm: 265801 [ms]
+RandomWalkAlgorithm - min: 92464 / avg: 110320 / max: 130081
+

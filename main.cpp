@@ -154,7 +154,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() != "pr76") {
+        if (instancePath.path().stem() == "pcb442") {
             continue; // Too big for steepest, for now don't run it
         }
 
@@ -179,13 +179,13 @@ int main(int argc, char** argv)
             distanceMatrix);
 
         AbstractAlgorithm* firstAlgorithms[] = {
-            new TabuSearchAlgorithm(initialSolution->getSize()),
+            // new TabuSearchAlgorithm(initialSolution->getSize()),
             new SteepestAlgorithm(initialSolution->getSize()),
             new GreedyAlgorithm(initialSolution->getSize()),
             new HeuristicAlgorithm(),
         };
 
-        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 4, csvWriter, outputFilename);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
         AbstractAlgorithm* secondAlgorithms[] = {
