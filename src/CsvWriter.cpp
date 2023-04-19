@@ -43,15 +43,29 @@ void CsvWriter::writeScore(Score* score, std::string filename)
         rawScoresFile << "instanceName" << delimiter << "algorithmName" << delimiter 
                       << "noRun" << delimiter << "score" << delimiter
                       << "noEvaluations" << delimiter << "noSteps" << delimiter 
-                      << "initialSolutionScore" << "\n";
+                      << "initialSolutionScore" << delimiter << "nodes" << "\n";
     }
 
+    int** nodes = score->getNodes();
     for (int i = 0; i < score->getNoRuns(); i++) {
         rawScoresFile << score->getInstanceName() << delimiter << score->getAlgorithmName() << delimiter 
                       << i << delimiter << score->getRawScores()[i] << delimiter
                       << score->getNoEvaluations()[i] << delimiter << score->getNoSteps()[i] << delimiter 
-                      << score->getInitialSolutionScores()[i] << "\n";
+                      << score->getInitialSolutionScores()[i] << delimiter << this->nodesToString(score, nodes[i])
+                      << "\n";
     }
 
     outfile.close();
+}
+
+// [1, 2, 3, 4, 5]
+std::string CsvWriter::nodesToString(Score* score, int* nodes)
+{
+    std::string nodesString = "[";
+    for (int i = 0; i < score->getNodesCount(); i++) {
+        nodesString += std::to_string(nodes[i]) + nodesSeparator;
+    }
+    nodesString += "]";
+
+    return nodesString;
 }

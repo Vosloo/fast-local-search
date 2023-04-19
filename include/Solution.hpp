@@ -18,6 +18,7 @@ public:
     ~Solution();
     DistanceMatrix* getDistanceMatrix();
     int* getCurrentNodes();
+    int* getCopyCurrentNodes();
     void calculateScore();
     void setScore(float score);
     float getScore();

@@ -72,6 +72,15 @@ int* Solution::getCurrentNodes()
     return this->currentNodes;
 }
 
+int* Solution::getCopyCurrentNodes()
+{
+    int* copy = new int[this->size];
+    for (int i = 0; i < this->size; i++) {
+        copy[i] = this->currentNodes[i];
+    }
+    return copy;
+}
+
 DistanceMatrix* Solution::getDistanceMatrix()
 {
     return this->distanceMatrix;

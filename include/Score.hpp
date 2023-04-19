@@ -13,6 +13,7 @@ private:
     Solution* initialSolution;
     int& noRuns;
     int* rawScores;
+    int** nodes;
     int* noEvaluations;
     int* noSteps;
     float* initialSolutionScores;
@@ -30,6 +31,7 @@ public:
         Solution* initialSolution,
         int& noRuns,
         int* rawScores,
+        int** nodes,
         int* noEvaluations,
         int* noSteps,
         float* initialSolutionScores,
@@ -37,8 +39,10 @@ public:
     ~Score();
     std::string getInstanceName();
     std::string getAlgorithmName();
+    int getNodesCount();
     int getNoRuns();
     int* getRawScores();
+    int** getNodes();
     int* getNoEvaluations();
     int* getNoSteps();
     float* getInitialSolutionScores();

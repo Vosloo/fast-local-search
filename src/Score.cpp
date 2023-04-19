@@ -9,6 +9,7 @@ Score::Score(
     Solution* initialSolution,
     int& noRuns,
     int* rawScores,
+    int** nodes,
     int* noEvaluations,
     int* noSteps,
     float* initialSolutionScores,
@@ -18,6 +19,7 @@ Score::Score(
     , initialSolution(initialSolution)
     , noRuns(noRuns)
     , rawScores(rawScores)
+    , nodes(nodes)
     , noEvaluations(noEvaluations)
     , noSteps(noSteps)
     , initialSolutionScores(initialSolutionScores)
@@ -32,6 +34,12 @@ Score::~Score()
     delete[] this->noEvaluations;
     delete[] this->noSteps;
     delete[] this->initialSolutionScores;
+    if (this->nodes != nullptr) {
+        for (int i = 0; i < this->noRuns; i++) {
+            delete[] this->nodes[i];
+        }
+        delete[] this->nodes;
+    }
 }
 
 std::string Score::getInstanceName()
@@ -44,6 +52,11 @@ std::string Score::getAlgorithmName()
     return this->algorithm.getAlgorithmName();
 }
 
+int Score::getNodesCount()
+{
+    return this->instance.getSize();
+}
+
 int Score::getNoRuns()
 {
     return this->noRuns;
@@ -52,6 +65,11 @@ int Score::getNoRuns()
 int* Score::getRawScores()
 {
     return this->rawScores;
+}
+
+int** Score::getNodes()
+{
+    return this->nodes;
 }
 
 int* Score::getNoEvaluations()

@@ -1,0 +1,5 @@
+instanceName;algorithmName;noRuns;runningTime;minScore;avgScore;maxScore;stdDev;initialSolutionScore
+ch130;SteepestAlgorithm;100;3609;6282;6576.58;6951;150.23;47665
+ch130;GreedyAlgorithm;100;4823;6202;6727.03;7044;154.786;47665
+a280;SteepestAlgorithm;100;37722;2767;2900.12;3046;51.3703;33472
+a280;GreedyAlgorithm;100;55558;2861;2995.42;3112;56.5833;33472

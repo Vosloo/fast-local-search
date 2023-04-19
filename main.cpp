@@ -50,7 +50,8 @@ Score* runAlgoritmh(
     Instance& instance,
     AbstractAlgorithm& algorithm,
     Solution* initialSolution,
-    int& noRuns)
+    int& noRuns,
+    bool saveNodes = false)
 {
 
     Solution* solution;
@@ -62,6 +63,10 @@ Score* runAlgoritmh(
     }
 
     int* rawScores = new int[noRuns];
+    int** nodes = nullptr;
+    if (saveNodes) {
+        nodes = new int*[noRuns];
+    }
     int* noEvaluations = new int[noRuns] { 0 };
     int* noSteps = new int[noRuns] { 0 };
     float* initialSolutionScores = new float[noRuns];
@@ -73,14 +78,18 @@ Score* runAlgoritmh(
         rawScores[i] = solution->getScore();
         initialSolutionScores[i] = currentInitial->getScore();
 
+        if (saveNodes) {
+            nodes[i] = solution->getCopyCurrentNodes();
+        }
+
         delete currentInitial;
         delete solution;
         if (i != noRuns - 1) {
-            getRandomPermutation(randomPermutation, initialSolution->getSize()),
-                currentInitial = new Solution(
-                    randomPermutation,
-                    initialSolution->getSize(),
-                    *initialSolution->getDistanceMatrix());
+            getRandomPermutation(randomPermutation, initialSolution->getSize());
+            currentInitial = new Solution(
+                randomPermutation,
+                initialSolution->getSize(),
+                *initialSolution->getDistanceMatrix());
         }
     }
 
@@ -95,6 +104,7 @@ Score* runAlgoritmh(
         initialSolution,
         noRuns,
         rawScores,
+        nodes,
         noEvaluations,
         noSteps,
         initialSolutionScores,
@@ -106,6 +116,7 @@ int runAlgorithms(
     AbstractAlgorithm* algorithms[],
     Solution* initialSolution,
     int& noRuns,
+    bool saveNodes,
     int noAlgorithms,
     CsvWriter& csvWriter,
     std::string outputFilename)
@@ -115,7 +126,7 @@ int runAlgorithms(
         AbstractAlgorithm* algorithm = algorithms[i];
         std::cout << "Running " << algorithm->getAlgorithmName() << " ..." << std::endl;
 
-        Score* score = runAlgoritmh(instance, *algorithm, initialSolution, noRuns);
+        Score* score = runAlgoritmh(instance, *algorithm, initialSolution, noRuns, saveNodes);
         if (algorithm->getAlgorithmName() == "GreedyAlgorithm") {
             greedyRunTime = score->getRunningTime();
         }
@@ -154,7 +165,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() == "pcb442") {
+        if (instancePath.path().stem() != "ch130" && instancePath.path().stem() != "a280") {
             continue; // Too big for steepest, for now don't run it
         }
 
@@ -182,18 +193,18 @@ int main(int argc, char** argv)
             // new TabuSearchAlgorithm(initialSolution->getSize()),
             new SteepestAlgorithm(initialSolution->getSize()),
             new GreedyAlgorithm(initialSolution->getSize()),
-            new HeuristicAlgorithm(),
+            // new HeuristicAlgorithm(),
         };
 
-        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, 3, csvWriter, outputFilename);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, true, 2, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
-        AbstractAlgorithm* secondAlgorithms[] = {
-            new RandomAlgorithm((float)greedyRunTime / noRuns),
-            new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
-        };
+        // AbstractAlgorithm* secondAlgorithms[] = {
+        //     new RandomAlgorithm((float)greedyRunTime / noRuns),
+        //     new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
+        // };
 
-        runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, 2, csvWriter, outputFilename);
+        // runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, true, 2, csvWriter, outputFilename);
 
         delete initialSolution;
         delete[] randomPermutation;
