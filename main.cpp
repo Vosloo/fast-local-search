@@ -15,7 +15,8 @@
 #include "algorithms/RandomAlgorithm.hpp"
 #include "algorithms/RandomWalkAlgorithm.hpp"
 #include "algorithms/SteepestAlgorithm.hpp"
-#include "algorithms/TabuSearchAlgorithm.hpp"
+// #include "algorithms/TabuSearchAlgorithm.hpp"
+#include "algorithms/SimulatedAnnealingAlgorithm.hpp"
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
 
@@ -165,7 +166,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() != "ch130" && instancePath.path().stem() != "a280") {
+        if (instancePath.path().stem() != "ch130") {
             continue; // Too big for steepest, for now don't run it
         }
 
@@ -192,7 +193,8 @@ int main(int argc, char** argv)
         AbstractAlgorithm* firstAlgorithms[] = {
             // new TabuSearchAlgorithm(initialSolution->getSize()),
             new SteepestAlgorithm(initialSolution->getSize()),
-            new GreedyAlgorithm(initialSolution->getSize()),
+            new SimulatedAnnealingAlgorithm(initialSolution->getSize(), 0.95),
+            // new GreedyAlgorithm(initialSolution->getSize()),
             // new HeuristicAlgorithm(),
         };
 

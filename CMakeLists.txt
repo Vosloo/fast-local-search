@@ -16,6 +16,7 @@ set(APP_SOURCES
     include/algorithms/HeuristicAlgorithm.hpp
     include/algorithms/RandomAlgorithm.hpp
     include/algorithms/RandomWalkAlgorithm.hpp
+    include/algorithms/SimulatedAnnealingAlgorithm.hpp
     include/algorithms/SteepestAlgorithm.hpp
     include/algorithms/TabuSearchAlgorithm.hpp
     include/delta/NodeDelta.hpp
@@ -32,6 +33,7 @@ set(APP_SOURCES
     src/algorithms/HeuristicAlgorithm.cpp
     src/algorithms/RandomAlgorithm.cpp
     src/algorithms/RandomWalkAlgorithm.cpp
+    src/algorithms/SimulatedAnnealingAlgorithm.cpp
     src/algorithms/SteepestAlgorithm.cpp
     src/algorithms/TabuSearchAlgorithm.cpp
     src/delta/NodeDelta.cpp
