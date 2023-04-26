@@ -15,7 +15,7 @@
 #include "algorithms/RandomAlgorithm.hpp"
 #include "algorithms/RandomWalkAlgorithm.hpp"
 #include "algorithms/SteepestAlgorithm.hpp"
-// #include "algorithms/TabuSearchAlgorithm.hpp"
+#include "algorithms/TabuSearchAlgorithm.hpp"
 #include "algorithms/SimulatedAnnealingAlgorithm.hpp"
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
@@ -75,6 +75,7 @@ Score* runAlgoritmh(
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     for (int i = 0; i < noRuns; i++) {
+        std::cout << "\rRun " << i + 1 << "/" << noRuns << std::flush;
         solution = algorithm.run(currentInitial, noEvaluations[i], noSteps[i]);
         rawScores[i] = solution->getScore();
         initialSolutionScores[i] = currentInitial->getScore();
@@ -96,6 +97,8 @@ Score* runAlgoritmh(
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     int64_t runTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+
+    std::cout << std::endl;
 
     delete[] randomPermutation;
 
@@ -166,7 +169,7 @@ int main(int argc, char** argv)
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
-        if (instancePath.path().stem() != "ch130") {
+        if (instancePath.path().stem() == "pcb442") {
             continue; // Too big for steepest, for now don't run it
         }
 
@@ -191,14 +194,14 @@ int main(int argc, char** argv)
             distanceMatrix);
 
         AbstractAlgorithm* firstAlgorithms[] = {
-            // new TabuSearchAlgorithm(initialSolution->getSize()),
-            new SteepestAlgorithm(initialSolution->getSize()),
-            new SimulatedAnnealingAlgorithm(initialSolution->getSize(), 0.95),
+            new TabuSearchAlgorithm(initialSolution->getSize()),
+            // new SteepestAlgorithm(initialSolution->getSize()),
+            // new SimulatedAnnealingAlgorithm(initialSolution->getSize(), 0.95),
             // new GreedyAlgorithm(initialSolution->getSize()),
             // new HeuristicAlgorithm(),
         };
 
-        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, true, 2, csvWriter, outputFilename);
+        int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, true, 1, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
         // AbstractAlgorithm* secondAlgorithms[] = {

@@ -48,7 +48,6 @@ Solution* GreedyAlgorithm::run(Solution* initialSolution, int& noEvaluations, in
             }
         }
 
-
         if (!foundBetterSolution) {
             break;
         }

@@ -13,10 +13,11 @@ private:
     int** neigbourhood;
     int tabuTenure;
     int maxIterWoImprov;
-    void updateTabuList(std::set<std::tuple<int, int>>& tabuList, std::tuple<int, int>& edge);
-    bool isTabu(std::set<std::tuple<int, int>>& tabuList, std::tuple<int, int>& edge);
-    bool fulfillsAspiration();
-    void updateEliteCandidates(std::vector<EdgeDelta*> eliteCandidates, Solution* currentSolution);
+    void updateTabuList(std::tuple<int, int>* tabuList, std::tuple<int, int>& edge, int& tabuIndex);
+    void moveTabuAtNewest(std::tuple<int, int>* tabuList, int& tabuIndex, int& toMoveInd);
+    bool isTabu(std::tuple<int, int>* tabuList, std::tuple<int, int>& edge);
+    bool fulfillsAspiration(EdgeDelta* delta);
+    void updateEliteCandidates(std::vector<EdgeDelta*>&eliteCandidates, Solution* currentSolution, int& noEvaluations);
 
 public:
     TabuSearchAlgorithm(int instanceSize);

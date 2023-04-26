@@ -34,6 +34,11 @@ float EdgeDelta::calculateDelta()
     return (oldDistance1 + oldDistance2) - (newDistance1 + newDistance2); // The bigger the better
 }
 
+std::tuple<int, int> EdgeDelta::getEdge()
+{
+    return std::make_tuple(node1ExternalInd, node2InternalInd);
+}
+
 int EdgeDelta::getNode1ExternalInd()
 {
     return node1ExternalInd;
@@ -61,6 +66,12 @@ void EdgeDelta::apply()
     }
 
     solution->setScore(solution->getScore() - delta);
+}
+
+void EdgeDelta::update(Solution* solution)
+{
+    this->solution = solution;
+    this->delta = calculateDelta();
 }
 
 bool EdgeDelta::operator>(const EdgeDelta& edgeDelta) const
