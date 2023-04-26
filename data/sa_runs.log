@@ -1,0 +1,73 @@
+No. runs: 300
+-----------------
+Running instance: "ch130" (130 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 14613 [ms]
+SimulatedAnnealing - min: 6307 / avg: 6738.83 / max: 7271
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "kroA100" (100 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 6479 [ms]
+SimulatedAnnealing - min: 21647 / avg: 23297 / max: 25700
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "kroC100" (100 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 6443 [ms]
+SimulatedAnnealing - min: 21279 / avg: 22928.5 / max: 25109
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "kroD100" (100 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 6408 [ms]
+SimulatedAnnealing - min: 21926 / avg: 23385.7 / max: 25258
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "lin105" (105 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 7781 [ms]
+SimulatedAnnealing - min: 14550 / avg: 15850.7 / max: 17596
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "pr76" (76 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 2530 [ms]
+SimulatedAnnealing - min: 108395 / avg: 115430 / max: 125464
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "a280" (280 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 168676 [ms]
+SimulatedAnnealing - min: 2839 / avg: 2991.89 / max: 3187
+
+Greedy running time: -1 and -0.00333333 per run
+-----------------
+Running instance: "lin318" (318 nodes)
+-----------------
+
+Running SimulatedAnnealing ...
+Running time of SimulatedAnnealing: 271717 [ms]
+SimulatedAnnealing - min: 44227 / avg: 47151.7 / max: 50201
+
+Greedy running time: -1 and -0.00333333 per run
