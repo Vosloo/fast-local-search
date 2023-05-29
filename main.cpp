@@ -170,6 +170,7 @@ int main(int argc, char** argv)
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
         if (instancePath.path().stem() == "pcb442") {
+        // if (instancePath.path().stem() != "ch130") {
             continue; // Too big for steepest, for now don't run it
         }
 

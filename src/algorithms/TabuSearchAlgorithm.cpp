@@ -3,16 +3,17 @@
 #include "delta/EdgeDelta.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <numeric>
 #include <set>
 #include <tuple>
 #include <vector>
 
 TabuSearchAlgorithm::TabuSearchAlgorithm(int instanceSize)
-    : candidateListSize(instanceSize / 10)
+    : candidateListSize(instanceSize * 0.20)
 {
     this->instanceSize = instanceSize;
     this->tabuTenure = instanceSize / 4;
-    this->maxIterWoImprov = 15;
+    this->maxIterWoImprov = 8;
     this->neighborhoodSize = (instanceSize - 1) * (instanceSize - 2) / 2 - 1;
     this->neigbourhood = getNeighborhood(this->instanceSize);
     setAlgorithmName("TabuSearchAlgorithm");
@@ -53,19 +54,20 @@ bool TabuSearchAlgorithm::fulfillsAspiration(EdgeDelta* delta)
     return delta->getDelta() > 0;
 }
 
-void TabuSearchAlgorithm::updateEliteCandidates(std::vector<EdgeDelta*>& eliteCandidates, Solution* currentSolution, int& noEvaluations)
+void TabuSearchAlgorithm::generateEliteCandidates(std::vector<EdgeDelta*>& eliteCandidates, Solution* currentSolution, int& noEvaluations)
 {
     for (int i = 0; i < (int)eliteCandidates.size(); i++) {
         delete eliteCandidates[i];
     }
     eliteCandidates.clear();
 
-    eliteCandidates.reserve(this->candidateListSize);
-
     // Generate all candidates
     EdgeDelta** deltas = new EdgeDelta*[this->neighborhoodSize];
     for (int i = 0; i < this->neighborhoodSize; i++) {
-        deltas[i] = new EdgeDelta(this->neigbourhood[i][0], this->neigbourhood[i][1], currentSolution);
+        deltas[i] = new EdgeDelta(
+            this->neigbourhood[i][0],
+            this->neigbourhood[i][1],
+            currentSolution);
         noEvaluations++;
     }
 
@@ -83,67 +85,93 @@ void TabuSearchAlgorithm::updateEliteCandidates(std::vector<EdgeDelta*>& eliteCa
     delete[] deltas;
 }
 
+void TabuSearchAlgorithm::updateEliteCandidates(std::vector<EdgeDelta*>& eliteCandidates, Solution* currentSolution, int& noEvaluations)
+{
+    for (int i = 0; i < (int)eliteCandidates.size(); i++) {
+        eliteCandidates[i]->update(currentSolution);
+        noEvaluations++;
+    }
+
+    std::sort(eliteCandidates.begin(), eliteCandidates.end(), [](EdgeDelta* a, EdgeDelta* b) {
+        return *a > *b;
+    });
+}
+
 Solution* TabuSearchAlgorithm::run(Solution* initialSolution, int& noEvaluations, int& noSteps)
 {
     Solution* currentSolution = new Solution(*initialSolution);
-    Solution* bestSolution = nullptr;
-
+    Solution* bestSolution = new Solution(*currentSolution);
+    EdgeDelta* bestCandidate = nullptr;
     EdgeDelta* currentDelta;
 
     std::vector<EdgeDelta*> eliteCandidates;
+    eliteCandidates.reserve(this->candidateListSize);
 
     std::tuple<int, int>* tabuList = new std::tuple<int, int>[this->tabuTenure];
+    std::tuple<int, int> edge;
 
     int iterWoImprov = 0;
-    int candidateChosen = -1;
     int currentTabuInd = 0;
-    bool tabuFound = false;
+    int usedEliteCandidates = 0;
     bool tabuFull = false;
+    bool tabuFound = false;
     while (iterWoImprov < this->maxIterWoImprov) {
-        this->updateEliteCandidates(eliteCandidates, currentSolution, noEvaluations);
+        // Use only 20% of elite candidates then generate new ones
+        if (eliteCandidates.size() == 0 
+            || usedEliteCandidates >= this->candidateListSize * 0.08 
+            || eliteCandidates[0]->getDelta() < -180
+        ) {
+            generateEliteCandidates(eliteCandidates, currentSolution, noEvaluations);
+            usedEliteCandidates = 0;
+        } else {
+            updateEliteCandidates(eliteCandidates, currentSolution, noEvaluations);
+            usedEliteCandidates++;
+        }
 
         for (int i = 0; i < (int)eliteCandidates.size(); i++) {
-            std::tuple<int, int> edge = eliteCandidates[i]->getEdge();
+            currentDelta = eliteCandidates[i];
+            edge = currentDelta->getEdge();
 
-            if (this->isTabu(tabuList, edge)) {
+            if (isTabu(tabuList, edge) && !fulfillsAspiration(currentDelta)) {
                 tabuFound = true;
-            }
-
-            if (tabuFound && this->fulfillsAspiration(eliteCandidates[i])) {
-                candidateChosen = i;
-                break;
-            } else if (tabuFound) {
                 continue;
             }
 
-            candidateChosen = i;
-            tabuFound = false;
-            break;
+            if (bestCandidate == nullptr || *currentDelta > *bestCandidate) {
+                tabuFound = false;
+                bestCandidate = new EdgeDelta(*currentDelta);
+                delete currentDelta;
+                eliteCandidates.erase(eliteCandidates.begin() + i);
+                break; // Elite candidates are sorted so as soon as we find a better one we can stop
+            }
         }
 
-        if (tabuFound) {
-            // Choose by the oldest tabu - aspiration by default
-            if (tabuFull) {
-                if (currentTabuInd < this->tabuTenure - 1) {
-                    candidateChosen = currentTabuInd + 1;
+        if (bestCandidate == nullptr) {
+            // No candidate found, we select the oldest tabu edge
+            int candidateIdx = -1;
+            if (tabuFound) {
+                // Choose by the oldest tabu - aspiration by default
+                if (tabuFull) {
+                    if (currentTabuInd < this->tabuTenure - 1) {
+                        candidateIdx = currentTabuInd + 1;
+                    } else {
+                        candidateIdx = 0;
+                    }
                 } else {
-                    candidateChosen = 0;
+                    candidateIdx = 0;
                 }
-            } else {
-                candidateChosen = 0;
+                bestCandidate = new EdgeDelta(tabuList[candidateIdx], currentSolution);
             }
-            currentDelta = new EdgeDelta(tabuList[candidateChosen], currentSolution);
-        } else {
-            currentDelta = eliteCandidates[candidateChosen];
-            eliteCandidates.erase(eliteCandidates.begin() + candidateChosen);
         }
 
-        currentDelta->apply();
+        bestCandidate->apply();
+        if (bestCandidate != nullptr) {
+            delete bestCandidate;
+            bestCandidate = nullptr;
+        }
 
-        if (bestSolution == nullptr || *currentSolution < *bestSolution) {
-            if (bestSolution != nullptr) {
-                delete bestSolution;
-            }
+        if (*currentSolution < *bestSolution) {
+            delete bestSolution;
             bestSolution = new Solution(*currentSolution);
             iterWoImprov = 0;
             noSteps++;
@@ -151,29 +179,22 @@ Solution* TabuSearchAlgorithm::run(Solution* initialSolution, int& noEvaluations
             iterWoImprov++;
         }
 
-        if (tabuFound) {
-            this->moveTabuAtNewest(tabuList, currentTabuInd, candidateChosen);
-        } else {
-            std::tuple<int, int> edge = currentDelta->getEdge();
-            this->updateTabuList(tabuList, edge, currentTabuInd);
-        }
-        currentTabuInd++;
-        currentTabuInd %= this->tabuTenure;
+        updateTabuList(tabuList, edge, currentTabuInd);
+        currentTabuInd = (currentTabuInd + 1) % this->tabuTenure;
+        currentDelta = nullptr;
+
+        tabuFound = false;
         if (!tabuFull && currentTabuInd == 0) {
             tabuFull = true;
         }
-
-        tabuFound = false;
-        candidateChosen = -1;
-
-        delete currentDelta;
-    }
-
-    for (int i = 0; i < (int)eliteCandidates.size(); i++) {
-        delete eliteCandidates[i];
     }
 
     delete[] tabuList;
     delete currentSolution;
+
+    for (auto& candidate : eliteCandidates) {
+        delete candidate;
+    }
+
     return bestSolution;
 }

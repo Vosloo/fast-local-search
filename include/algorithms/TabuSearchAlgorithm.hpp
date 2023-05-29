@@ -17,7 +17,8 @@ private:
     void moveTabuAtNewest(std::tuple<int, int>* tabuList, int& tabuIndex, int& toMoveInd);
     bool isTabu(std::tuple<int, int>* tabuList, std::tuple<int, int>& edge);
     bool fulfillsAspiration(EdgeDelta* delta);
-    void updateEliteCandidates(std::vector<EdgeDelta*>&eliteCandidates, Solution* currentSolution, int& noEvaluations);
+    void generateEliteCandidates(std::vector<EdgeDelta*>&eliteCandidates, Solution* currentSolution, int& noEvaluations);
+    void updateEliteCandidates(std::vector<EdgeDelta*>&eliteCandidates, Solution* delta, int& noEvaluations);
 
 public:
     TabuSearchAlgorithm(int instanceSize);

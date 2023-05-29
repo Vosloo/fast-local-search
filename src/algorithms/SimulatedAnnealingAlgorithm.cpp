@@ -50,7 +50,6 @@ Solution* SimulatedAnnealingAlgorithm::run(Solution* initialSolution, int& noEva
                 foundBetterSolution = true;
                 break;
             } else if (exp(delta.getDelta()/T) > rand()){
-                //TODO temperatura chuja
                 delta.apply();
                 noSteps++;
                 foundBetterSolution = true;

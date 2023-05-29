@@ -1,0 +1,9 @@
+instanceName;algorithmName;noRuns;runningTime;minScore;avgScore;maxScore;stdDev;initialSolutionScore
+ch130;TabuSearchAlgorithm;300;11792;6204;6575.22;8247;183.639;48452
+kroA100;TabuSearchAlgorithm;300;6328;21365;22647.9;24639;649.863;179026
+kroC100;TabuSearchAlgorithm;300;6317;20854;22198.7;24403;690.843;183417
+kroD100;TabuSearchAlgorithm;300;6300;21454;22662;24318;506.583;165027
+lin105;TabuSearchAlgorithm;300;7413;14420;15200.8;16308;367.61;120460
+pr76;TabuSearchAlgorithm;300;2730;108159;112755;127255;2571.63;575439
+a280;TabuSearchAlgorithm;300;98017;2713;2864.19;3088;60.8105;34390
+lin318;TabuSearchAlgorithm;300;133861;43598;45360.6;48127;728.884;580731
