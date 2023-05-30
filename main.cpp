@@ -2,6 +2,8 @@
 #include <filesystem>
 #include <iostream>
 #include <random>
+#include <map>
+#include <string>
 
 #include "CsvWriter.hpp"
 #include "DistanceMatrix.hpp"
@@ -19,6 +21,7 @@
 #include "algorithms/SimulatedAnnealingAlgorithm.hpp"
 #include "delta/NodeDelta.hpp"
 #include "utils.hpp"
+
 
 void printStats(Solution& solution)
 {
@@ -166,6 +169,17 @@ int main(int argc, char** argv)
 
     std::filesystem::path instancesDir = std::filesystem::current_path() / "../data" / "instances";
 
+    const std::map<std::string, float> instanceTemps = {
+        { "a280", 7155.0 },
+        { "ch130", 14193.0 },
+        { "kroA100", 70321.0 },
+        { "kroC100", 70536.0 },
+        { "kroD100", 63751.0 },
+        { "lin105", 50046.0 },
+        { "lin318", 107246.0 },
+        { "pr76", 244437.0 },
+    };
+
     int noRuns = std::stoi(argv[1]);
     std::cout << "No. runs: " << noRuns << std::endl;
     for (const auto& instancePath : std::filesystem::directory_iterator(instancesDir)) {
@@ -195,9 +209,9 @@ int main(int argc, char** argv)
             distanceMatrix);
 
         AbstractAlgorithm* firstAlgorithms[] = {
-            new TabuSearchAlgorithm(initialSolution->getSize()),
+            // new TabuSearchAlgorithm(initialSolution->getSize()),
             // new SteepestAlgorithm(initialSolution->getSize()),
-            // new SimulatedAnnealingAlgorithm(initialSolution->getSize(), 0.95),
+            new SimulatedAnnealingAlgorithm(initialSolution->getSize(), instanceTemps.at(instancePath.path().stem()), 0.95),
             // new GreedyAlgorithm(initialSolution->getSize()),
             // new HeuristicAlgorithm(),
         };
@@ -206,11 +220,11 @@ int main(int argc, char** argv)
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
         // AbstractAlgorithm* secondAlgorithms[] = {
-        //     new RandomAlgorithm((float)greedyRunTime / noRuns),
-        //     new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
+            // new RandomAlgorithm((float)greedyRunTime / noRuns),
+            // new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
         // };
 
-        // runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, true, 2, csvWriter, outputFilename);
+        // runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, true, 1, csvWriter, outputFilename);
 
         delete initialSolution;
         delete[] randomPermutation;

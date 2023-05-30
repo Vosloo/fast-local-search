@@ -5,10 +5,11 @@
 #include <random>
 #include <cmath>
 
-SimulatedAnnealingAlgorithm::SimulatedAnnealingAlgorithm(int instanceSize, float temperature_cooling)
+SimulatedAnnealingAlgorithm::SimulatedAnnealingAlgorithm(int instanceSize, float initialTemperature, float temperatureCooling)
 {
     this->instanceSize = instanceSize;
-    this->temperature_cooling = temperature_cooling;
+    this->initialTemperature = initialTemperature;
+    this->temperatureCooling = temperatureCooling;
     this->neighborhoodSize = (instanceSize - 1) * (instanceSize - 2) / 2 - 1;
     this->neigbourhood = getNeighborhood(this->instanceSize);
     setAlgorithmName("SimulatedAnnealing");
@@ -26,7 +27,7 @@ Solution* SimulatedAnnealingAlgorithm::run(Solution* initialSolution, int& noEva
 {
     Solution* currentSolution = new Solution(*initialSolution);
     float T = currentSolution->getScore() * 10;
-    float T_alpha = this->temperature_cooling;
+    float T_alpha = this->temperatureCooling;
 
     int* randomPermutation = new int[this->neighborhoodSize];
     for (int i = 0; i < this->neighborhoodSize; i++) {
