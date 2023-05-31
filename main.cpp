@@ -211,20 +211,20 @@ int main(int argc, char** argv)
         AbstractAlgorithm* firstAlgorithms[] = {
             // new TabuSearchAlgorithm(initialSolution->getSize()),
             // new SteepestAlgorithm(initialSolution->getSize()),
-            new SimulatedAnnealingAlgorithm(initialSolution->getSize(), instanceTemps.at(instancePath.path().stem()), 0.95),
-            // new GreedyAlgorithm(initialSolution->getSize()),
+            // new SimulatedAnnealingAlgorithm(initialSolution->getSize(), instanceTemps.at(instancePath.path().stem()), 0.95),
+            new GreedyAlgorithm(initialSolution->getSize()),
             // new HeuristicAlgorithm(),
         };
 
         int greedyRunTime = runAlgorithms(instance, firstAlgorithms, initialSolution, noRuns, true, 1, csvWriter, outputFilename);
         std::cout << "Greedy running time: " << greedyRunTime << " and " << (float)greedyRunTime / noRuns << " per run" << std::endl;
 
-        // AbstractAlgorithm* secondAlgorithms[] = {
+        AbstractAlgorithm* secondAlgorithms[] = {
             // new RandomAlgorithm((float)greedyRunTime / noRuns),
-            // new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
-        // };
+            new RandomWalkAlgorithm((float)greedyRunTime / noRuns)
+        };
 
-        // runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, true, 1, csvWriter, outputFilename);
+        runAlgorithms(instance, secondAlgorithms, initialSolution, noRuns, true, 1, csvWriter, outputFilename);
 
         delete initialSolution;
         delete[] randomPermutation;
