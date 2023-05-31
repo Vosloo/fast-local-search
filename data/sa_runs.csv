@@ -1,9 +1,0 @@
-instanceName;algorithmName;noRuns;runningTime;minScore;avgScore;maxScore;stdDev;initialSolutionScore
-ch130;SimulatedAnnealing;300;14613;6307;6738.83;7271;174.595;46988
-kroA100;SimulatedAnnealing;300;6479;21647;23297;25700;841.036;165016
-kroC100;SimulatedAnnealing;300;6443;21279;22928.5;25109;772.649;163574
-kroD100;SimulatedAnnealing;300;6408;21926;23385.7;25258;595.732;155751
-lin105;SimulatedAnnealing;300;7781;14550;15850.7;17596;523.801;124115
-pr76;SimulatedAnnealing;300;2530;108395;115430;125464;3208.69;517596
-a280;SimulatedAnnealing;300;168676;2839;2991.89;3187;65.1421;34711
-lin318;SimulatedAnnealing;300;271717;44227;47151.7;50201;1023.22;588952
